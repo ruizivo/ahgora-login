@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "neu run",
+    "start:lib": "neu run --frontend-lib-dev",
+    "debug": "neu run -- --window-enable-inspector"
+  }
+
+}
