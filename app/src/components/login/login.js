@@ -14,24 +14,34 @@ function Login() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  inputs.user = "0170";
-  inputs.pass = "Hive@147258";
+  //inputs.user = "0170";
+  //inputs.pass = "Hive@147258";
 
   const loginSubmit = (event) => {
     event.preventDefault();
     let user = {
-      user: inputs.user,
-      pass: inputs.pass,
+      company: inputs.company,
+      username: inputs.username,
+      password: inputs.password,
     };
+    login(user)
+  };
+
+  function login(user){
     AhgoraService.login(user).then(
       (result) => {
         navigate("/home", { replace: true });
       },
       (error) => {
-        alert("Usuário ou senha inválida!");
+        navigate("/login", { replace: true });
       }
     );
-  };
+  }
+
+  window.Neutralino.storage.getData("userDetails").then((result) => {
+      console.log(`Data: ${result}`);
+      login(JSON.parse(result))
+    });
 
   return (
     <div className="App">
@@ -40,20 +50,28 @@ function Login() {
           <div className="box">
             <h1>Login</h1>
             <input
+              placeholder="empresa"
+              type="text"
+              name="company"
+              className="input"
+              value={inputs.company || ""}
+              onChange={handleChange}
+            />
+            <input
               placeholder="usuario"
               type="text"
-              name="user"
+              name="username"
               className="input"
-              value={inputs.user || ""}
+              value={inputs.username || ""}
               onChange={handleChange}
             />
 
             <input
               placeholder="senha"
               type="password"
-              name="pass"
+              name="password"
               className="input"
-              value={inputs.pass || ""}
+              value={inputs.password || ""}
               onChange={handleChange}
             />
 

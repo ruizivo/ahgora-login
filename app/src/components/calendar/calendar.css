@@ -2,14 +2,19 @@
   background-color: #4ec47f!important;
 }
 
+.ctnFlex{
+  display: flex;
+  justify-content: space-between;
+}
 
-.batida {
+.calendarContent{
+  width: 324px;
+}
+
+.batidainfo {
   position: relative;
-  border: 1px solid;
-  border-radius: 16px;
-  width: 2px;
-  height: 2px;
   margin: 1px;
+  border-radius: 16px;
   display: -ms-inline-flexbox;
   display: inline-flex;
   -ms-flex-direction: row;
@@ -18,17 +23,48 @@
   justify-content: space-around;
   -ms-flex-align: center;
   align-items: center;
-  color: black;
   overflow: hidden;
+  background-color: white;
+  color: black;
 }
+
+.previsto {
+  opacity: 0.5;
+}
+
+.espelho-batidas {
+  line-height: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.exibirHora {
+  border-radius: 54px;
+  height: 54px;
+  width: 54px;
+  margin: 4px;
+}
+
+.resumo{
+  margin-left: 1.5rem;
+  margin-right: 2vw;
+  /* width: 660px; */
+}
+
+
+
 
 .react-calendar {
 border-radius: 4px;
-width: 470px;
+/*width: 100%; 470px;*/
 max-width: 100%;
 background: white;
 font: inherit;
-line-height: 2.125em;
+line-height: 149%; /* 2.125em; */
 border: 0;
 overflow: hidden;
 }
@@ -105,7 +141,7 @@ color: #757575;
 .react-calendar__year-view .react-calendar__tile,
 .react-calendar__decade-view .react-calendar__tile,
 .react-calendar__century-view .react-calendar__tile {
-padding: 2em 0.5em;
+padding: 6%;
 }
 .react-calendar__tile {
 max-width: 100%;
@@ -138,3 +174,24 @@ background: #1087ff;
 .react-calendar--selectRange .react-calendar__tile--hover {
 background-color: #e6e6e6;
 }
+
+
+
+
+@media screen and (min-width: 784px) {
+
+  .calendarContent {
+    width: 470px;
+  }
+  .react-calendar__year-view .react-calendar__tile,
+  .react-calendar__decade-view .react-calendar__tile,
+  .react-calendar__century-view .react-calendar__tile {
+    padding: 5%;
+  }
+
+  .react-calendar {
+
+    line-height: 250%;
+
+    }
+} 

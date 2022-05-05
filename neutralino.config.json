@@ -14,7 +14,7 @@
   ],
   "modes": {
     "window": {
-      "title": "Hivecloud login ahgora",
+      "title": "Ahgora login ",
       "width": 800,
       "height": 500,
       "minWidth": 800,
@@ -26,7 +26,7 @@
     }
   },
   "cli": {
-    "binaryName": "hive-ahgora",
+    "binaryName": "ahgora-login",
     "resourcesPath": "/app/build/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/app/public/neutralino.js",
