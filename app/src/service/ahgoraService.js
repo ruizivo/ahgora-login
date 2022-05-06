@@ -30,6 +30,9 @@ const AhgoraService = {
     });
   },
   espelhoPonto: function (year, month) {
+    let today = new Date();
+    let mirroDate = new Date(year,parseInt(month)-1,1);
+
     return new Promise((resolve, reject) => {
       let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
 
@@ -38,12 +41,27 @@ const AhgoraService = {
 
       window.Neutralino.os.execCommand(comand).then((result) => {
         let mirror = JSON.parse(result.stdOut);
-        console.log(mirror);
+        //console.log(mirror);
         if (mirror.error) {
           reject(mirror);
         } else {
           localStorage.setItem("mirror", JSON.stringify(mirror));
           resolve(mirror);
+
+          var obj = {
+            historico: {
+                referencia:{
+                  [year+'-'+month]: {
+                    dias: mirror.dias,
+                    total: mirror.meses[year+'-'+month]
+                  }
+                }
+              },
+          }
+
+          if( mirroDate.getMonth() < today.getMonth()){
+            window.Neutralino.storage.setData('history', JSON.stringify(obj));
+          }
         }
       });
     });

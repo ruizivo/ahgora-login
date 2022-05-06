@@ -70,12 +70,12 @@ function CalendarHive(props) {
   }
 
   function updateMirror(date) {
-    AhgoraService.espelhoPonto(
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0")
-    ).then(
+    let ano = date.getFullYear();
+    let mes = String(date.getMonth() + 1).padStart(2, "0")
+
+    AhgoraService.espelhoPonto(ano,mes).then(
       (result) => {
-        setMirror(result);
+        setMirror(result);        
       },
       (error) => {
         console.log("erro!");

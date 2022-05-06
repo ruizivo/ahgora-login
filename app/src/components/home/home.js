@@ -8,7 +8,8 @@ function Home() {
   const [data, setData] = useState(null);
 
   function getData(){
-    AhgoraService.espelhoPonto('2022', '05').then(
+    const date = new Date();
+    AhgoraService.espelhoPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0")).then(
       (result) => {
         setData(result)
       },
@@ -33,10 +34,30 @@ function Home() {
     return <h1>Carregando!</h1>;
   }
 
+  const registrarPonto = (event) => {
+    window.Neutralino.storage.getData("userDetails").then((result) => {
+      
+      let user = JSON.parse(result)
+
+      // AhgoraService.baterPonto(user).then(
+      //   (result) => {
+      //     console.log("foi!");
+      //     getData();
+      //   },
+      //   (error) => {
+      //     console.log("erro!");
+      //   }
+      // );
+      console.log("ponto batido: fake!");
+    });
+    
+  };
+
 
   return (
     <div>
       <ShowCalendar isOK={data != null}/>
+      <button onClick={registrarPonto}>Registrar</button>
     </div>
   );
 }
