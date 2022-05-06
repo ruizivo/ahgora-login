@@ -28,7 +28,31 @@
   color: black;
 }
 
+.boxBatidas {
+  bottom: 3px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 74%;
+}
+
+.batida {
+  border: 1px solid;
+  border-radius: 16px;
+  color: #484848;
+  height: 7px;
+  margin: 0px;
+  position: relative;
+  width: 7px;
+  bottom: 0px;
+}
+
 .previsto {
+  opacity: 0.5;
+}
+
+.esqueceu {
+  background-color: black;
   opacity: 0.5;
 }
 
@@ -52,7 +76,7 @@
 .resumo{
   margin-left: 1.5rem;
   margin-right: 2vw;
-  /* width: 660px; */
+  width: 248px;
 }
 
 
@@ -74,6 +98,7 @@ border: 0;
 outline: none;
 font: inherit;
 font-size: 0.8em;
+position: relative;
 }
 .react-calendar button:enabled:hover {
 cursor: pointer;
@@ -188,10 +213,13 @@ background-color: #e6e6e6;
   .react-calendar__century-view .react-calendar__tile {
     padding: 5%;
   }
+  
+  .boxBatidas{
+    width: 80%;
+    bottom: 8px;
+  }
 
   .react-calendar {
-
     line-height: 250%;
-
-    }
+  }
 } 

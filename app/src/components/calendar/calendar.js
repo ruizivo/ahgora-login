@@ -22,8 +22,21 @@ function CalendarHive(props) {
   });
 
   const tileContent = ({ date, view }) => {
-    return view === "month" && date.getDay() === 2 ? (
-      <p className="batida"></p>
+    const result = date.toLocaleDateString("en-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    //mirror.dias[result]
+    return view === "month" ? (
+      <div className="boxBatidas">
+        {/* <p className="batida"></p>
+        <p className="batida"></p> */}
+        {mirror.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (
+            <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={motivo || tipo}></p>
+          ))}
+      </div>
+      
     ) : null;
   };
 

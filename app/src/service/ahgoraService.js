@@ -1,6 +1,8 @@
 const AhgoraService = {
   // testes
   // window.Neutralino.os.showMessageBox('Welcome', 'Hello Neutralinojs');
+  //  window.Neutralino.os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
+   
 
   login: function (user) {
     return new Promise((resolve, reject) => {

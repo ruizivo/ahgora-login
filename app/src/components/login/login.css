@@ -77,25 +77,3 @@
   }
 
 
-  .saturday{
-    background-color: #27ae60;
-  }
-
-  .batida {
-    position: relative;
-    border: 1px solid;
-    border-radius: 16px;
-    width: 2px;
-    height: 2px;
-    margin: 1px;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -ms-flex-pack: distribute;
-    justify-content: space-around;
-    -ms-flex-align: center;
-    align-items: center;
-    color: black;
-    overflow: hidden;
-}
