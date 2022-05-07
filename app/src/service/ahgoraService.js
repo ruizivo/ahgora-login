@@ -41,7 +41,7 @@ const AhgoraService = {
 
       window.Neutralino.os.execCommand(comand).then((result) => {
         let mirror = JSON.parse(result.stdOut);
-        //console.log(mirror);
+        console.log(mirror);
         if (mirror.error) {
           reject(mirror);
         } else {

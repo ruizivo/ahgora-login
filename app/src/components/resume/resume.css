@@ -1,0 +1,26 @@
+.btnRegister {
+    background: #2ecc71;
+    border: 1px solid #27ae60;
+    color: #fff;
+    font-size: .8em;
+    font-weight: 800;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.btnRegister:hover{
+    background:#2CC06B; 
+}
+
+.btnRegister:disabled{
+    background:  #fff;
+    color: #ccc;
+    cursor: no-drop;
+ }
+
+ .ctnFlex p{
+     margin: 4px 0;
+ }

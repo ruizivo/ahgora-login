@@ -1,0 +1,33 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: release CI-CD
+
+on:
+  push:
+    branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build and test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: app
+      - name: build app
+        run: npm build
+        working-directory: app
+      - name: install neutralinojs
+        run: npm install -g @neutralinojs/neu
+      - name: build neutralino project
+        run: npm build
+      - name: Upload artifacts
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: ahgora-login
+          path: dist

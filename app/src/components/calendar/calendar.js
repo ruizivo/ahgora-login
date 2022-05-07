@@ -2,19 +2,17 @@ import { useState, React, useEffect } from "react";
 import "./calendar.css";
 import Calendar from "react-calendar";
 import AhgoraService from "../../service/ahgoraService";
+import Resume from "../resume/resume";
 
 function CalendarHive(props) {
   const [mirror, setMirror] = useState(props.data);
-  const [value, onChange] = useState(new Date());
+  const [value, setValue] = useState(new Date());
   const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
+  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
 
   useEffect(() => {
     if (mirrorDayInfo == null) {
-      const result = value.toLocaleDateString("en-CA", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      });
+      const result = value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
 
       console.log("ponto: ", mirror.dias[result]);
       setMirrorDayInfo(mirror.dias[result]);
@@ -22,16 +20,9 @@ function CalendarHive(props) {
   });
 
   const tileContent = ({ date, view }) => {
-    const result = date.toLocaleDateString("en-CA", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-    //mirror.dias[result]
+    const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
     return view === "month" ? (
       <div className="boxBatidas">
-        {/* <p className="batida"></p>
-        <p className="batida"></p> */}
         {mirror.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (
             <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={motivo || tipo}></p>
           ))}
@@ -51,13 +42,13 @@ function CalendarHive(props) {
 
   const onClick = (value) => {
     const date = new Date(value);
-    const result = date.toLocaleDateString("en-CA", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-    console.log("ponto: ", mirror.dias[result]);
-    setMirrorDayInfo(mirror.dias[result]);
+    const dateString = date.toLocaleDateString("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"});
+    console.log("batidas: ", mirror.dias[dateString]);
+    setMirrorDayInfo(mirror.dias[dateString]);
+
+    const dateMonthString = dateString.slice(0, -3);
+    console.log("totais: ", mirror.meses[dateMonthString]);
+    setMirrorMonthInfo(mirror.meses[dateMonthString]);
   };
 
   const onViewChange = ({ action, activeStartDate, value, view }) => {
@@ -75,7 +66,8 @@ function CalendarHive(props) {
 
     AhgoraService.espelhoPonto(ano,mes).then(
       (result) => {
-        setMirror(result);        
+        setMirror(result);      
+        console.log('funcionou!')  
       },
       (error) => {
         console.log("erro!");
@@ -83,12 +75,19 @@ function CalendarHive(props) {
     );
   }
 
+  function updateAfterRegister(){
+    let today = new Date();
+    onClick(today)
+    updateMirror(today);
+    setValue(today);
+  }
+
   return (
     <div className="ctnFlex">
       <div className="calendarContent">
         <Calendar
           calendarType={"US"}
-          onChange={onChange}
+          onChange={setValue}
           tileClassName={tileClassName}
           tileContent={tileContent}
           onClickDay={onClick}
@@ -98,25 +97,8 @@ function CalendarHive(props) {
         />
       </div>
 
-      <div className="resumo">
-        <div className="espelho-batidas">
-          {mirrorDayInfo?.batidas.map(({ hora, tipo , motivo}) => (
-            <p className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
-          ))}
-        </div>
-        <div>
-          {mirrorDayInfo?.totais.map(({ descricao, valor }) => (
-            <div className="ctnFlex">
-              <p className="">
-                {descricao}
-              </p>
-              <p className="">
-                {valor}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Resume mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister}/>
+      
     </div>
   );
 }

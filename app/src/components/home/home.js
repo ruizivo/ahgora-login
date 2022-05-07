@@ -19,45 +19,25 @@ function Home() {
     );
   }
   
-
   useEffect(() => {
     if(data == null){
       getData();
     }
   });
 
-  function ShowCalendar(props) {
+  function ShowHome(props) {
     const isOK = props.isOK;
     if (isOK) {
-      return <CalendarHive data={data}/>;
+      return (
+          <CalendarHive data={data}/>
+      );
     }
     return <h1>Carregando!</h1>;
   }
 
-  const registrarPonto = (event) => {
-    window.Neutralino.storage.getData("userDetails").then((result) => {
-      
-      let user = JSON.parse(result)
-
-      // AhgoraService.baterPonto(user).then(
-      //   (result) => {
-      //     console.log("foi!");
-      //     getData();
-      //   },
-      //   (error) => {
-      //     console.log("erro!");
-      //   }
-      // );
-      console.log("ponto batido: fake!");
-    });
-    
-  };
-
-
   return (
     <div>
-      <ShowCalendar isOK={data != null}/>
-      <button onClick={registrarPonto}>Registrar</button>
+      <ShowHome isOK={data != null}/>
     </div>
   );
 }

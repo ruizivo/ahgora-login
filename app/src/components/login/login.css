@@ -52,6 +52,12 @@
     font-size:0.8em;
   }
   
+  .btnRegister:disabled{
+    background:  #fff;
+    color: #ccc;
+    cursor: no-drop;
+ }
+  
   .btn:hover{
     background:#2CC06B; 
   }
