@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -18,4 +17,4 @@ root.render(
 reportWebVitals();
 
 
-Neutralino.init(); // Add this function call
+window.Neutralino.init();
