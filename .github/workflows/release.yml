@@ -21,19 +21,19 @@ jobs:
         with:
           node-version: '14.x'
 
+      - name: install neutralinojs
+        run: npm install -g @neutralinojs/neu
+
       - name: intall dependencies
         run: npm install
         working-directory: app
 
+      - name: update neutralino project
+        run: neu update
+
       - name: build app react
         run: npm run build
         working-directory: app
-
-      - name: install neutralinojs
-        run: npm install -g @neutralinojs/neu
-
-      - name: update neutralino project
-        run: neu update
 
       - name: list files
         run: find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
