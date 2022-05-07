@@ -10,21 +10,27 @@ on:
   #   branches: [ main ]
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-20.04
     name: Build and test
     steps:
       - uses: actions/checkout@v2
-      - uses: bahmutov/npm-install@v1
+
+      - name: Use Node 12.x
+        uses: actions/setup-node@v1
         with:
-          working-directory: app
+          node-version: '12.x'
+
       - name: build app
         run: npm build
         working-directory: app
+
       - name: install neutralinojs
         run: npm install -g @neutralinojs/neu
+
       - name: build neutralino project
         run: npm build
+
       - name: Upload artifacts
         if: success()
         uses: actions/upload-artifact@v1
