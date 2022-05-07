@@ -33,15 +33,18 @@ function Login() {
         navigate("/home", { replace: true });
       },
       (error) => {
-        navigate("/login", { replace: true });
+        //navigate("/login", { replace: true });
+        alert(error.message)
       }
     );
   }
 
-  // window.Neutralino.storage.getData("userDetails").then((result) => {
-  //     //console.log(`Data: ${result}`);
-  //     login(JSON.parse(result))
-  //   });
+  window.Neutralino.storage.getData("userDetails").then((result) => {
+      //console.log(`Data: ${result}`);
+      login(JSON.parse(result))
+    }, error =>{
+      console.log(error.message);
+    });
 
   return (
     <div className="App">
