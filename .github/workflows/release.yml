@@ -32,8 +32,14 @@ jobs:
       - name: install neutralinojs
         run: npm install -g @neutralinojs/neu
 
+      - name: update neutralino project
+        run: neu update
+
+      - name: list files
+        run: ls
+
       - name: build neutralino project
-        run: neu update && neu build
+        run: neu build
 
       - name: Upload artifacts
         if: success()
