@@ -56,3 +56,9 @@ jobs:
         with:
           name: manifest.json
           path: manifest.json
+      
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "ahgora-login.zip,resources.neu,manifest.json,"
+          token: ${{ secrets.GITHUB_TOKEN }}
