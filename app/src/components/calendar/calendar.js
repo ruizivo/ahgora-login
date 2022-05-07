@@ -10,21 +10,6 @@ function CalendarHive(props) {
   const [mirrorDayInfo, setMirrorDayInfo] = useState(mirror?.dias[value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" })]);
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
 
-  function initMirrorDay(){
-    const result = value?.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
-    let ponto = mirror?.dias[result]
-    console.log("ponto: ", ponto);
-    return ponto;
-  }
-
-  // if (mirrorDayInfo == null) {
-  //   const result = value?.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
-  //   let ponto = mirror?.dias[result]
-  //   console.log("ponto: ", ponto);
-    
-  //   setMirrorDayInfo(ponto);
-  // }
-
 
   const tileContent = ({ date, view }) => {
     const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
