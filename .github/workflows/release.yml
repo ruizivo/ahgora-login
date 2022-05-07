@@ -49,8 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: resources.neu
-          path: resources.neu
-          working-directory: dist
+          path: dist/ahgora-login/resources.neu
 
       - name: Upload manifest Artifact
         uses: actions/upload-artifact@v3
