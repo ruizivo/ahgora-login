@@ -36,7 +36,8 @@ jobs:
         run: neu update
 
       - name: list files
-        run: ls
+        run: find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+        working-directory: app/public
 
       - name: build neutralino project
         run: neu build
