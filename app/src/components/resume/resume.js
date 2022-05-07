@@ -10,7 +10,7 @@ function Resume(props) {
 
     window.Neutralino.storage.getData("userDetails").then((result) => {
       
-      let user = JSON.parse(result)
+      //let user = JSON.parse(result)
 
       // AhgoraService.baterPonto(user).then(
       //   (result) => {

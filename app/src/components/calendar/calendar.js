@@ -1,4 +1,4 @@
-import { useState, React, useEffect } from "react";
+import { useState, React } from "react";
 import "./calendar.css";
 import Calendar from "react-calendar";
 import AhgoraService from "../../service/ahgoraService";
@@ -10,14 +10,14 @@ function CalendarHive(props) {
   const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
 
-  useEffect(() => {
-    if (mirrorDayInfo == null) {
-      const result = value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
+  if (mirrorDayInfo == null) {
+    const result = value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
+    let ponto = mirror.dias[result]
+    console.log("ponto: ", ponto);
+    
+    setMirrorDayInfo(ponto);
+  }
 
-      console.log("ponto: ", mirror.dias[result]);
-      setMirrorDayInfo(mirror.dias[result]);
-    }
-  });
 
   const tileContent = ({ date, view }) => {
     const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
