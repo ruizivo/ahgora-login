@@ -7,16 +7,23 @@ import Resume from "../resume/resume";
 function CalendarHive(props) {
   const [mirror, setMirror] = useState(props.data);
   const [value, setValue] = useState(new Date());
-  const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
+  const [mirrorDayInfo, setMirrorDayInfo] = useState(mirror?.dias[value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" })]);
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
 
-  if (mirrorDayInfo == null) {
-    const result = value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
-    let ponto = mirror.dias[result]
+  function initMirrorDay(){
+    const result = value?.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
+    let ponto = mirror?.dias[result]
     console.log("ponto: ", ponto);
-    
-    setMirrorDayInfo(ponto);
+    return ponto;
   }
+
+  // if (mirrorDayInfo == null) {
+  //   const result = value?.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
+  //   let ponto = mirror?.dias[result]
+  //   console.log("ponto: ", ponto);
+    
+  //   setMirrorDayInfo(ponto);
+  // }
 
 
   const tileContent = ({ date, view }) => {
@@ -42,7 +49,7 @@ function CalendarHive(props) {
 
   const onClick = (value) => {
     const date = new Date(value);
-    const dateString = date.toLocaleDateString("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"});
+    const dateString = date?.toLocaleDateString("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"});
     console.log("batidas: ", mirror.dias[dateString]);
     setMirrorDayInfo(mirror.dias[dateString]);
 

@@ -35,16 +35,24 @@ jobs:
         run: npm run build
         working-directory: app
 
-      - name: list files
-        run: find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
-        working-directory: app/public
-
       - name: build neutralino project
         run: neu build
 
       - name: Upload artifacts
         if: success()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: ahgora-login
           path: dist
+
+      - name: Upload resources Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: resources.neu
+          path: resources.neu
+
+      - name: Upload manifest Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: manifest.json
+          path: manifest.json
