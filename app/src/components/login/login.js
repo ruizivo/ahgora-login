@@ -39,12 +39,17 @@ function Login() {
     );
   }
 
-  window.Neutralino.storage.getData("userDetails").then((result) => {
+  try {
+    window.Neutralino.storage.getData("userDetails").then((result) => {
       //console.log(`Data: ${result}`);
       login(JSON.parse(result))
     }, error =>{
       console.log(error.message);
     });
+  } catch (error) {
+    alert(error.message);
+  }
+  
 
   return (
     <div className="App">
