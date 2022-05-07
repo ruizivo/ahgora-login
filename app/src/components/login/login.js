@@ -38,10 +38,10 @@ function Login() {
     );
   }
 
-  window.Neutralino.storage.getData("userDetails").then((result) => {
-      //console.log(`Data: ${result}`);
-      login(JSON.parse(result))
-    });
+  // window.Neutralino.storage.getData("userDetails").then((result) => {
+  //     //console.log(`Data: ${result}`);
+  //     login(JSON.parse(result))
+  //   });
 
   return (
     <div className="App">
