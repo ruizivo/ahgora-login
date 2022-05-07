@@ -49,7 +49,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: resources.neu
-          path: dist/resources.neu
+          path: resources.neu
+          working-directory: dist
 
       - name: Upload manifest Artifact
         uses: actions/upload-artifact@v3
