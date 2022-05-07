@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
 const AhgoraService = {
   // testes
-  // Neutralino.os.showMessageBox('Welcome', 'Hello Neutralinojs');
-  // Neutralino.os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
+  // window.Neutralino.os.showMessageBox('Welcome', 'Hello Neutralinojs');
+  // window.Neutralino.os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
    
 
   login: function (user) {
@@ -15,10 +14,10 @@ const AhgoraService = {
 
       let comand = `curl -d "${credential}" -X POST https://www.ahgora.com.br/externo/login`;
 
-      Neutralino.os.execCommand(comand).then((result) => {
+      window.Neutralino.os.execCommand(comand).then((result) => {
         let userDetails = JSON.parse(result.stdOut);
         if (userDetails.r === "success") {
-          Neutralino.storage.setData(
+          window.Neutralino.storage.setData(
             "userDetails",
             JSON.stringify(user)
           );
@@ -40,7 +39,7 @@ const AhgoraService = {
       const header = `cookie: qwert-external=${jwt}`;
       let comand = `curl -H "${header}" -X GET https://www.ahgora.com.br/api-espelho/apuracao/${year}-${month}`;
 
-      Neutralino.os.execCommand(comand).then((result) => {
+      window.Neutralino.os.execCommand(comand).then((result) => {
         let mirror = JSON.parse(result.stdOut);
         console.log(mirror);
         if (mirror.error) {
@@ -61,7 +60,7 @@ const AhgoraService = {
           }
 
           if( mirroDate.getMonth() < today.getMonth()){
-            Neutralino.storage.setData('history', JSON.stringify(obj));
+            window.Neutralino.storage.setData('history', JSON.stringify(obj));
           }
         }
       });
@@ -78,7 +77,7 @@ const AhgoraService = {
 
       let comand = `curl -d "${credential}" -X POST http://www.ahgora.com.br/batidaonline/verifyIdentification`;
 
-      Neutralino.os.execCommand(comand).then((result) => {
+      window.Neutralino.os.execCommand(comand).then((result) => {
         let ponto = JSON.parse(result.stdOut);
         console.log(ponto);
         if (ponto.result) {

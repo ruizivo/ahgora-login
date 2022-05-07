@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { React, useState  } from "react";
 import "./resume.css";
 
@@ -9,7 +8,7 @@ function Resume(props) {
   const registrarPonto = (event) => {
     setRegisterInProgress(true);
 
-    Neutralino.storage.getData("userDetails").then((result) => {
+    window.Neutralino.storage.getData("userDetails").then((result) => {
       
       //let user = JSON.parse(result)
 
