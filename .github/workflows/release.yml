@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    name: Build and test
+    name: Build ahgora-login
     steps:
       - uses: actions/checkout@v2
 
@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: build app
+      - name: build app react
         run: npm build
         working-directory: app
 
@@ -29,7 +29,7 @@ jobs:
         run: npm install -g @neutralinojs/neu
 
       - name: build neutralino project
-        run: npm build
+        run: neu build
 
       - name: Upload artifacts
         if: success()
