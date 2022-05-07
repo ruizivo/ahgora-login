@@ -40,7 +40,8 @@ function Login() {
   }
 
   try {
-    window.Neutralino.storage.getData("userDetails").then((result) => {
+    // eslint-disable-next-line no-undef
+    Neutralino.storage.getData("userDetails").then((result) => {
       //console.log(`Data: ${result}`);
       login(JSON.parse(result))
     }, error =>{

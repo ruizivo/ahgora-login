@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 const StorageService = {
 
     save: function (obj) {
 
-        
-        window.Neutralino.storage.getData("db").then((result) => {
+
+        Neutralino.storage.getData("db").then((result) => {
             //console.log(`Data: ${result}`);
 
 
@@ -12,7 +13,7 @@ const StorageService = {
 
     },
     load: function () {
-        window.Neutralino.storage.getData("db").then((result) => {
+        Neutralino.storage.getData("db").then((result) => {
             //console.log(`Data: ${result}`);
         });
     }
