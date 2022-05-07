@@ -21,6 +21,10 @@ jobs:
         with:
           node-version: '12.x'
 
+      - name: intall dependencies
+        run: npm install
+        working-directory: app
+
       - name: build app react
         run: npm run build
         working-directory: app
