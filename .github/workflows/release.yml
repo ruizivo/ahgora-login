@@ -20,6 +20,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
+      
+      
+      - name: Versioning
+        run: |
+          dotnet tool install -g GitVersion.Tool --version=5.6.4
+          dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml"
+          echo "SemVer=$(dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /showvariable FullSemVer /verbosity Quiet)" >> $GITHUB_ENV
+
+      - name: Set versions on neutralino.config.json
+        run: sed -i 's/0.0.0/${{ env.SemVer }}/g' neutralino.config.json
+        
 
       - name: install neutralinojs
         run: npm install -g @neutralinojs/neu
@@ -60,5 +71,18 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
+          name: v${{ env.SemVer }}
+          tag: v${{ env.SemVer }}
           artifacts: "ahgora-login.zip,resources.neu,manifest.json,"
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.SemVer }}
+          release_name: ${{ env.SemVer }}
+          body: ${{ steps.changes.outputs.log }}
+          draft: false

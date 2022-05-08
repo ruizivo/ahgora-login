@@ -1,6 +1,6 @@
 {
   "applicationId": "ahgora.login",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "defaultMode": "window",
   "port": 3000,
   "documentRoot": "/app/build/",
