@@ -88,7 +88,7 @@ jobs:
           token: ${{ secrets.AHGORA_LOGIN_TOKEN }}
       
 
-      - name: Copy the Readmes
+      - name: Copy the files to pages
         run: |
             cp "dist/ahgora-login/resources.neu" "./pages/resources.neu"
             cp "manifest.json" "./pages/manifest.json"
@@ -97,7 +97,7 @@ jobs:
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: self
-          BRANCH: build # The branch name where you want to push the assets
-          FOLDER: build # The directory where your assets are generated
+          BRANCH: gh-pages # The branch name where you want to push the assets
+          FOLDER: pages # The directory where your assets are generated
           GITHUB_TOKEN: ${{ secrets.AHGORA_LOGIN_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
           MESSAGE: "Update manifest.json and resources.neu: v${{ env.SemVer }}" # The commit message
