@@ -52,12 +52,18 @@ jobs:
       - name: build neutralino project
         run: neu build
 
-      - name: Upload artifacts
-        if: success()
-        uses: actions/upload-artifact@v3
+      # - name: Upload artifacts
+      #   if: success()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ahgora-login
+      #     path: dist
+
+      - name: Create Release zip
+        uses: papeloto/action-zip@v1
         with:
-          name: ahgora-login
-          path: dist
+          files: dist/
+          dest: ahgora-login.zip
 
       - name: Upload resources Artifact
         uses: actions/upload-artifact@v3
@@ -76,5 +82,5 @@ jobs:
         with:
           name: v${{ env.SemVer }}
           tag: v${{ env.SemVer }}
-          artifacts: "ahgora-login.zip,resources.neu,manifest.json"
+          artifacts: "ahgora-login.zip,dist/ahgora-login/resources.neu,manifest.json"
           token: ${{ secrets.AHGORA_LOGIN_TOKEN }}
