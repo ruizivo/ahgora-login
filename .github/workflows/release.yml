@@ -30,7 +30,7 @@ jobs:
 
       - name: Set versions on neutralino.config.json
         run: sed -i 's/0.0.0/${{ env.SemVer }}/g' neutralino.config.json
-        
+
 
       - name: install neutralinojs
         run: npm install -g @neutralinojs/neu
@@ -75,14 +75,3 @@ jobs:
           tag: v${{ env.SemVer }}
           artifacts: "ahgora-login.zip,resources.neu,manifest.json,"
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ env.SemVer }}
-          release_name: ${{ env.SemVer }}
-          body: ${{ steps.changes.outputs.log }}
-          draft: false
