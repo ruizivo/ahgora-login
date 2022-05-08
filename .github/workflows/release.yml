@@ -90,7 +90,7 @@ jobs:
 
       - name: Copy the files to pages
         run: |
-            cp "dist/ahgora-login/resources.neu" "pages/resources.neu"
+            cp "${{ github.workspace }}/dist/ahgora-login/resources.neu" "${{ github.workspace }}/pages/resources.neu"
             cp "manifest.json" "pages/manifest.json"
 
       - name: Push pra o github pages
