@@ -15,6 +15,9 @@ jobs:
     name: Build ahgora-login
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - name: Use Node 14.x
         uses: actions/setup-node@v1
