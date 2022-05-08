@@ -1,5 +1,5 @@
 {
-    "applicationId": "js.neutralino.sample",
+    "applicationId": "ahgora.login",
     "version": "%SemVer%",
     "resourcesURL": "https://github.com/ruizivo/ahgora-login/releases/download/%SemVer%/resources.neu",
     "data": {
