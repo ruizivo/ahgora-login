@@ -1,7 +1,7 @@
 {
     "applicationId": "ahgora.login",
     "version": "%SemVer%",
-    "resourcesURL": "https://github.com/ruizivo/ahgora-login/releases/download/v%SemVer%/resources.neu",
+    "resourcesURL": "https://ruizivo.github.io/ahgora-login/resources.neu",
     "data": {
     }
 }

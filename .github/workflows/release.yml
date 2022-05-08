@@ -67,22 +67,37 @@ jobs:
           files: dist/
           dest: ahgora-login.zip
 
-      - name: Upload resources Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: resources.neu
-          path: dist/ahgora-login/resources.neu
+      # - name: Upload resources Artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: resources.neu
+      #     path: dist/ahgora-login/resources.neu
 
-      - name: Upload manifest Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: manifest.json
-          path: manifest.json
+      # - name: Upload manifest Artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: manifest.json
+      #     path: manifest.json
       
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           name: v${{ env.SemVer }}
           tag: v${{ env.SemVer }}
-          artifacts: "ahgora-login.zip,dist/ahgora-login/resources.neu,manifest.json"
+          artifacts: "ahgora-login.zip"
           token: ${{ secrets.AHGORA_LOGIN_TOKEN }}
+      
+
+      - name: Copy the Readmes
+        run: |
+            cp "dist/ahgora-login/resources.neu" "./pages/resources.neu"
+            cp "manifest.json" "./pages/manifest.json"
+
+      - name: Push pra o github pages
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: build # The branch name where you want to push the assets
+          FOLDER: build # The directory where your assets are generated
+          GITHUB_TOKEN: ${{ secrets.AHGORA_LOGIN_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+          MESSAGE: "Update manifest.json and resources.neu: v${{ env.SemVer }}" # The commit message

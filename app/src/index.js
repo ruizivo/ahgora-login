@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import UpdateService from './service/updaterService';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,3 +19,6 @@ reportWebVitals();
 
 
 window.Neutralino.init();
+
+
+UpdateService.checkUpdate();
