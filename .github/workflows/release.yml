@@ -32,7 +32,9 @@ jobs:
           echo "SemVer=$(dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /showvariable FullSemVer /verbosity Quiet)" >> $GITHUB_ENV
 
       - name: Set versions on neutralino.config.json
-        run: sed -i 's/0.0.0/${{ env.SemVer }}/g' neutralino.config.json
+        run: |
+          sed -i 's/%SemVer%/${{ env.SemVer }}/g' manifest.json
+          sed -i 's/0.0.0/${{ env.SemVer }}/g' neutralino.config.json
 
 
       - name: install neutralinojs

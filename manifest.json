@@ -1,7 +1,7 @@
 {
     "applicationId": "js.neutralino.sample",
-    "version": "0.0.2",
-    "resourcesURL": "http://example.com/updater_test/update_res.neu",
+    "version": "%SemVer%",
+    "resourcesURL": "https://github.com/ruizivo/ahgora-login/releases/download/%SemVer%/resources.neu",
     "data": {
     }
 }
