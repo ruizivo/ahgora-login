@@ -77,4 +77,4 @@ jobs:
           name: v${{ env.SemVer }}
           tag: v${{ env.SemVer }}
           # artifacts: "ahgora-login.zip,resources.neu,manifest.json"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AHGORA_LOGIN_TOKEN }}
