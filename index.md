@@ -1,5 +1,34 @@
 
 
-[Download](https://github.com/ruizivo/ahgora-login/releases/download/v0.1.45/ahgora-login.zip).
+
+
+[Donwload <img src="assets/zip-icon.png">](https://github.com/ruizivo/ahgora-login/releases/latest/download/ahgora-login.zip)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
