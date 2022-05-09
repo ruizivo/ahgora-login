@@ -59,7 +59,6 @@ function CalendarHive(props) {
     AhgoraService.espelhoPonto(ano,mes).then(
       (result) => {
         setMirror(result);      
-        console.log('funcionou!')  
       },
       (error) => {
         console.log("erro!");
@@ -67,10 +66,13 @@ function CalendarHive(props) {
     );
   }
 
-  function updateAfterRegister(){
+  function updateAfterRegister(mirror){
     let today = new Date();
+    //updateMirror(today);
+    setMirror(mirror)
     onClick(today)
     setValue(today);
+
   }
 
   return (

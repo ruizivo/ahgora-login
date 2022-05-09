@@ -21,7 +21,7 @@ const UpdaterService = {
           window.Neutralino.updater.checkForUpdates("https://ruizivo.github.io/ahgora-login/manifest.json").then( manifest => {
             console.log(manifest)
             // eslint-disable-next-line no-undef
-            if(manifest.version !== NL_APPVERSION) {
+            if(NL_APPVERSION !== '0.0.0' && manifest.version !== NL_APPVERSION) {
               console.log('entrou na atualização')
               window.Neutralino.os.showNotification('Nova Versão encontrada', 'atualizando...', 'INFO');
               let comand = `curl https://ruizivo.github.io/ahgora-login/resources.neu --output resources.neu`;
