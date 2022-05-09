@@ -4,8 +4,7 @@ import AhgoraService from "../../service/ahgoraService";
 
 function Resume(props) {
 
-  const [mirror, setMirror] = useState(props.mirror);
-  const [date, setDate] = useState(props.date);
+  const date = props.date;
   const mirrorDayInfo = props.mirrorDayInfo;
   const mirrorMonthInfo = props.mirrorMonthInfo;
 
@@ -17,7 +16,7 @@ function Resume(props) {
 
     AhgoraService.espelhoPonto(ano,mes).then(
       (result) => {
-        setMirror(result);      
+        props.mirror = result;      
         console.log('funcionou!')  
         setRegisterInProgress(false);
         props.onRegister();
