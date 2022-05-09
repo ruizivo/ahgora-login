@@ -1,43 +1,95 @@
+import { useState, React, useEffect} from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/login/login";
 import Home from "./components/home/home";
+import  AppContext from "./service/appContext";
+import Loading from "./components/loading/login";
+import UpdateService from './service/updaterService';
+
 
 function App() {
+
+  const [pageSelected, setPageSelected] = useState(null);
+
+  const userSettings = {
+    pageSelected,
+    setPageSelected,
+  };
 
   document.addEventListener("contextmenu", function (e){
       e.preventDefault();
   }, false);
 
-  function ShowApp(props) {
-    const isOK = props.isOK;
-    if (isOK) {
-      return (
-        <Router>
-        <Routes>
-            <Route path="" exact element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
-          </Routes>
-        </Router>
-      );
-    }
 
-    
-    return (
-      <div>
-        <div className="App">
-        <header className="App-header">
-          <h1>Carregando!</h1>
-        </header>
-        </div>
-      </div>
-      );
+  useEffect(() => {
+    if(pageSelected == null){
+      init();
+    }
+  });
+
+  function init() {
+    try {
+      UpdateService.checkUpdate().then(result => {
+        if(result){
+          setPageSelected('update');
+          UpdateService.performUpdate();
+        } else {
+          // eslint-disable-next-line no-undef
+          window.Neutralino.storage.getData("userDetails").then((result) => {
+            setPageSelected('home');
+          }, error =>{
+            setPageSelected('login');
+          });
+        }
+      })
+      
+      
+    } catch (error) {
+      setPageSelected('login');
+    }
   }
 
 
+  function ShowPage() {
+
+
+      if (pageSelected=== 'login') {
+        return <Login />
+      }  
+      if (pageSelected === 'home') {
+        return <Home />
+      } 
+      if (pageSelected === 'update') {
+        return (
+          <div>
+          <div className="App">
+          <header className="App-header">
+          <h1>Atualizando para uma nova versão!</h1>
+          <Loading/>
+          </header>
+          </div>
+        </div>
+        )
+      } 
+      if (pageSelected === null) {
+        return (
+          <div>
+            <div className="App">
+            <header className="App-header">
+              <Loading/>
+            </header>
+            </div>
+          </div>
+          );
+      }
+    
+  }
+ 
+
   return (
-    <ShowApp isOK={true}/>
+    <AppContext.Provider value={userSettings}>
+      <ShowPage />
+    </AppContext.Provider >
   );
 }
 

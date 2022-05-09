@@ -1,10 +1,12 @@
-import { useState, React } from "react";
+import { useState, React, useContext} from "react";
 import AhgoraService from "../../service/ahgoraService";
+import AppContext from "../../service/appContext";
 import "./login.css";
-import { useNavigate } from "react-router-dom";
+
 
 function Login() {
-  const navigate = useNavigate();
+
+  const myContext = useContext(AppContext);
 
   const [inputs, setInputs] = useState({});
 
@@ -13,9 +15,6 @@ function Login() {
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
-
-  //inputs.user = "0170";
-  //inputs.pass = "Hive@147258";
 
   const loginSubmit = (event) => {
     event.preventDefault();
@@ -30,27 +29,13 @@ function Login() {
   function login(user){
     AhgoraService.login(user).then(
       (result) => {
-        navigate("/home", { replace: true });
+        myContext.setPageSelected('home')
       },
       (error) => {
-        //navigate("/login", { replace: true });
         alert(error.message)
       }
     );
   }
-
-  try {
-    // eslint-disable-next-line no-undef
-    window.Neutralino.storage.getData("userDetails").then((result) => {
-      //console.log(`Data: ${result}`);
-      login(JSON.parse(result))
-    }, error =>{
-      console.log(error.message);
-    });
-  } catch (error) {
-    alert(error.message);
-  }
-  
 
   return (
     <div className="App">

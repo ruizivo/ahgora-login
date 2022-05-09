@@ -8,7 +8,7 @@ function CalendarHive(props) {
   const [mirror, setMirror] = useState(props.data);
   const [value, setValue] = useState(new Date());
   const [mirrorDayInfo, setMirrorDayInfo] = useState(mirror?.dias[value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" })]);
-  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
+  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(mirror.meses[value.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" }).slice(0, -3)]);
 
 
   const tileContent = ({ date, view }) => {
@@ -90,7 +90,7 @@ function CalendarHive(props) {
         />
       </div>
 
-      <Resume mirror={mirror} date={value} mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister}/>
+      <Resume date={value} mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister}/>
       
     </div>
   );

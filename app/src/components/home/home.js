@@ -1,6 +1,7 @@
 import { useState, React, useEffect  } from "react";
 import AhgoraService from "../../service/ahgoraService";
 import CalendarHive from "../calendar/calendar";
+import Loading from "../loading/login";
 import "./home.css";
 
 function Home() {
@@ -32,7 +33,15 @@ function Home() {
           <CalendarHive data={data}/>
       );
     }
-    return <h1>Carregando!</h1>;
+    return (
+      <div>
+        <div className="App">
+        <header className="App-header">
+          <Loading/>
+        </header>
+        </div>
+      </div>
+    );
   }
 
   return (
