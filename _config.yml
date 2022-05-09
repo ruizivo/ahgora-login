@@ -2,3 +2,6 @@ theme: jekyll-theme-tactile
 title: Ahgora Login
 description: [Aplicativo para facilitar a batida de ponto do Ahgora]
 show_downloads: "true"
+github:
+  zip_url: http://example.com/download.zip
+  another_url: another value
