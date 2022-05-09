@@ -1,8 +1,1 @@
 theme: jekyll-theme-tactile 
-title: Ahgora Login
-description: [Aplicativo para facilitar a batida de ponto do Ahgora]
-show_downloads: true
-is_project_page: true
-github:
-  zip_url: https://github.com/ruizivo/ahgora-login/releases/download/v0.1.45/ahgora-login.zip
-  repository_url : https://github.com/ruizivo/ahgora-login
