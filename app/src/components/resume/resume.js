@@ -15,6 +15,7 @@ function Resume(props) {
         console.log('ponto batido!')  
         setRegisterInProgress(false);
         props.onRegister(result);
+        props.update(new Date());
       },
       (error) => {
         console.log("erro!");

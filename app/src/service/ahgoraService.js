@@ -7,9 +7,9 @@ const AhgoraService = {
   login: function (user) {
     return new Promise((resolve, reject) => {
       const credential = new URLSearchParams({
-        empresa: user.company, // "a839277",
-        matricula: user.username, //"0170",
-        senha: user.password, // "Hive@147258",
+        empresa: user.company,
+        matricula: user.username, 
+        senha: user.password, 
       });
 
       let comand = `curl -d "${credential}" -X POST https://www.ahgora.com.br/externo/login`;
@@ -22,6 +22,13 @@ const AhgoraService = {
             JSON.stringify(user)
           );
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+          let comand = `curl https://www.ahgora.com.br/batidaonline/defaultComputer?c=${user.company}`;
+          window.Neutralino.os.execCommand(comand).then((result) => {
+            localStorage.setItem("identity", result.stdOut);
+          })
+
+
           resolve(userDetails);
         } else {
           reject(userDetails);
@@ -68,8 +75,10 @@ const AhgoraService = {
   },
   baterPonto: function (user) {
     return new Promise((resolve, reject) => {
+
+      const identity = JSON.parse(localStorage.getItem("identity"));
       const credential = new URLSearchParams({
-        identity: "ee9401ced1c547eea2aae4655d911e3b",
+        identity: identity.identity,
         account: user.username,
         password: user.password,
         origin: "pw2",
@@ -82,11 +91,21 @@ const AhgoraService = {
         console.log(ponto);
         if (ponto.result) {
           localStorage.setItem("ponto", JSON.stringify(ponto));
-          resolve(ponto);
+          resolve(true);
         } else {
-          reject(ponto);
+          resolve(false);
         }
       });
+
+      //para testes
+      // AhgoraService.espelhoPonto("2022","05").then(
+      //   (result) => {     
+      //     resolve(true)
+      //   },
+      //   (error) => {
+      //     reject(false);
+      //   }
+      // );
     });
   },
 };

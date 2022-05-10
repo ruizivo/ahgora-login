@@ -15,7 +15,7 @@ function Home() {
         setData(result)
       },
       (error) => {
-        console.log("erro!");
+        console.log(error);
       }
     );
   }

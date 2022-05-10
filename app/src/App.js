@@ -5,6 +5,7 @@ import Home from "./components/home/home";
 import  AppContext from "./service/appContext";
 import Loading from "./components/loading/login";
 import UpdateService from './service/updaterService';
+import AhgoraService from "./service/ahgoraService";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         } else {
           // eslint-disable-next-line no-undef
           window.Neutralino.storage.getData("userDetails").then((result) => {
+            AhgoraService.login(JSON.parse(result))
             setPageSelected('home');
           }, error =>{
             setPageSelected('login');

@@ -70,8 +70,8 @@ function CalendarHive(props) {
     let today = new Date();
     //updateMirror(today);
     setMirror(mirror)
-    onClick(today)
     setValue(today);
+    onClick(today)
 
   }
 
@@ -90,7 +90,7 @@ function CalendarHive(props) {
         />
       </div>
 
-      <Resume date={value} mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister}/>
+      <Resume date={value} mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister} update={onClick}/>
       
     </div>
   );
