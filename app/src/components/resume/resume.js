@@ -4,6 +4,8 @@ import AhgoraService from "../../service/ahgoraService";
 
 function Resume(props) {
 
+  const [mirrorDayInfo, setMirrorDayInfo] = useState(props.mirrorDayInfo);
+  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(props.mirrorMonthInfo);
   const [registerInProgress, setRegisterInProgress] = useState(false);
 
   function updateMirror() {
@@ -11,14 +13,23 @@ function Resume(props) {
     let mes = String(props.date.getMonth() + 1).padStart(2, "0")
 
     AhgoraService.espelhoPonto(ano,mes).then(
-      (result) => {     
-        console.log('ponto batido!')  
+      (mirror) => {     
+        props.onRegister(mirror);
+
+        const date = new Date();
+        const dateString = date?.toLocaleDateString("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"});
+        console.log("batidas: ", mirror.dias[dateString]);
+        setMirrorDayInfo(mirror.dias[dateString]);
+    
+        const dateMonthString = dateString.slice(0, -3);
+        console.log("totais: ", mirror.meses[dateMonthString]);
+        setMirrorMonthInfo(mirror.meses[dateMonthString]);
+
+
         setRegisterInProgress(false);
-        props.onRegister(result);
-        props.update(new Date());
       },
       (error) => {
-        console.log("erro!");
+        console.log(error);
       }
     );
   }
@@ -26,19 +37,16 @@ function Resume(props) {
   const registrarPonto = (event) => {
     setRegisterInProgress(true);
 
-    window.Neutralino.storage.getData("userDetails").then((result) => {
-      let user = JSON.parse(result)
-
-      AhgoraService.baterPonto(user).then(
-        (result) => {
-          updateMirror();
-        },
-        (error) => {
-          console.log("erro!");
-          setRegisterInProgress(false);
-        }
-      );
-    });
+    AhgoraService.baterPonto().then(
+      (result) => {
+        console.log('ponto batido!')  
+        updateMirror()
+      },
+      (error) => {
+        console.log(error);
+        setRegisterInProgress(false);
+      }
+    );
     
   };
 
@@ -50,12 +58,12 @@ function Resume(props) {
         </div>
 
         <div className="espelho-batidas">
-          {props.mirrorDayInfo?.batidas.map(({ hora, tipo , motivo}) => (
+          {mirrorDayInfo?.batidas.map(({ hora, tipo , motivo}) => (
             <p className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
           ))}
         </div>
         <div>
-          {props.mirrorDayInfo?.totais.map(({ descricao, valor }) => (
+          {mirrorDayInfo?.totais.map(({ descricao, valor }) => (
             <div className="ctnFlex">
               <p className="">
                 {descricao}
@@ -68,7 +76,7 @@ function Resume(props) {
         </div>
         <br/>
         <div>
-          {props.mirrorMonthInfo?.totais.map(({ descricao, valor }) => (
+          {mirrorMonthInfo?.totais.map(({ descricao, valor }) => (
             <div className="ctnFlex">
               <p className="">
                 {descricao.replace('Banco de horas acumulado','Acumulado')}

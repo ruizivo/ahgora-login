@@ -22,6 +22,7 @@ const AhgoraService = {
             JSON.stringify(user)
           );
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
+          localStorage.setItem("credential", JSON.stringify(user));
 
           let comand = `curl https://www.ahgora.com.br/batidaonline/defaultComputer?c=${user.company}`;
           window.Neutralino.os.execCommand(comand).then((result) => {
@@ -73,9 +74,10 @@ const AhgoraService = {
       });
     });
   },
-  baterPonto: function (user) {
+  baterPonto: function () {
     return new Promise((resolve, reject) => {
 
+      let user = JSON.parse(localStorage.getItem("credential"));
       const identity = JSON.parse(localStorage.getItem("identity"));
       const credential = new URLSearchParams({
         identity: identity.identity,
@@ -106,6 +108,8 @@ const AhgoraService = {
       //     reject(false);
       //   }
       // );
+
+
     });
   },
 };

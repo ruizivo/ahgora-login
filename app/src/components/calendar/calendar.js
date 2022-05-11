@@ -32,7 +32,7 @@ function CalendarHive(props) {
       : null;
   };
 
-  const onClick = (value) => {
+  function onClick(value) {
     const date = new Date(value);
     const dateString = date?.toLocaleDateString("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"});
     console.log("batidas: ", mirror.dias[dateString]);
@@ -44,13 +44,11 @@ function CalendarHive(props) {
   };
 
   const onViewChange = ({ action, activeStartDate, value, view }) => {
-    updateMirror(activeStartDate);
+    console.log(action, activeStartDate, value, view)
+    if(action === 'drillDown' && view === 'month'){
+      updateMirror(activeStartDate);
+    }
   };
-
-  const onActiveStartDateChange = ({ action, activeStartDate, value, view }) => 
-  {
-    updateMirror(activeStartDate);
-  }
 
   function updateMirror(date) {
     let ano = date.getFullYear();
@@ -58,7 +56,9 @@ function CalendarHive(props) {
 
     AhgoraService.espelhoPonto(ano,mes).then(
       (result) => {
-        setMirror(result);      
+        setMirror(result);   
+        onClick(date); 
+        setValue(date);
       },
       (error) => {
         console.log("erro!");
@@ -68,11 +68,8 @@ function CalendarHive(props) {
 
   function updateAfterRegister(mirror){
     let today = new Date();
-    //updateMirror(today);
-    setMirror(mirror)
+    setMirror(mirror);   
     setValue(today);
-    onClick(today)
-
   }
 
   return (
@@ -86,11 +83,10 @@ function CalendarHive(props) {
           onClickDay={onClick}
           value={value}
           onViewChange={onViewChange}
-          onActiveStartDateChange={onActiveStartDateChange}
         />
       </div>
 
-      <Resume date={value} mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister} update={onClick}/>
+      <Resume date={value} mirrorDayInfo={mirrorDayInfo} mirrorMonthInfo={mirrorMonthInfo} onRegister={updateAfterRegister}/>
       
     </div>
   );
