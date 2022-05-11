@@ -1,4 +1,4 @@
-import { React, useState  } from "react";
+import { React, useState, useEffect  } from "react";
 import "./resume.css";
 import AhgoraService from "../../service/ahgoraService";
 
@@ -8,23 +8,18 @@ function Resume(props) {
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(props.mirrorMonthInfo);
   const [registerInProgress, setRegisterInProgress] = useState(false);
 
+  const [mirror, setMirror] = useState(props.mirror);
+
   function updateMirror() {
     let ano = props.date.getFullYear();
     let mes = String(props.date.getMonth() + 1).padStart(2, "0")
 
     AhgoraService.espelhoPonto(ano,mes).then(
       (mirror) => {     
+        setMirror(mirror);
         props.onRegister(mirror);
 
-        const date = new Date();
-        const dateString = date?.toLocaleDateString("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"});
-        console.log("batidas: ", mirror.dias[dateString]);
-        setMirrorDayInfo(mirror.dias[dateString]);
-    
-        const dateMonthString = dateString.slice(0, -3);
-        console.log("totais: ", mirror.meses[dateMonthString]);
-        setMirrorMonthInfo(mirror.meses[dateMonthString]);
-
+        atualizaResumo();
 
         setRegisterInProgress(false);
       },
@@ -32,7 +27,27 @@ function Resume(props) {
         console.log(error);
       }
     );
+
   }
+
+  function atualizaResumo() {
+    if(mirror){
+      const date = new Date(props.date);
+      const dateString = date?.toLocaleDateString("en-CA", { year: "numeric", month: "2-digit", day: "2-digit" });
+      console.log("batidas: ", mirror.dias[dateString]);
+      setMirrorDayInfo(mirror.dias[dateString]);
+  
+      const dateMonthString = dateString.slice(0, -3);
+      console.log("totais: ", mirror.meses[dateMonthString]);
+      setMirrorMonthInfo(mirror.meses[dateMonthString]);
+    }
+  }
+
+  
+  useEffect(() => {
+    console.log('deveria atualizar')
+    atualizaResumo();
+  });
 
   const registrarPonto = (event) => {
     setRegisterInProgress(true);
