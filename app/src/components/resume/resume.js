@@ -8,7 +8,7 @@ function Resume(props) {
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(props.mirrorMonthInfo);
   const [registerInProgress, setRegisterInProgress] = useState(false);
 
-  const [mirror, setMirror] = useState(props.mirror);
+
 
   function updateMirror() {
     let ano = props.date.getFullYear();
@@ -16,7 +16,6 @@ function Resume(props) {
 
     AhgoraService.espelhoPonto(ano,mes).then(
       (mirror) => {     
-        setMirror(mirror);
         props.onRegister(mirror);
 
         atualizaResumo();
