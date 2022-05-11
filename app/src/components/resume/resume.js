@@ -31,15 +31,15 @@ function Resume(props) {
   }
 
   function atualizaResumo() {
-    if(mirror){
+    if(props.mirror){
       const date = new Date(props.date);
       const dateString = date?.toLocaleDateString("en-CA", { year: "numeric", month: "2-digit", day: "2-digit" });
-      console.log("batidas: ", mirror.dias[dateString]);
-      setMirrorDayInfo(mirror.dias[dateString]);
+      console.log("batidas: ", props.mirror.dias[dateString]);
+      setMirrorDayInfo(props.mirror.dias[dateString]);
   
       const dateMonthString = dateString.slice(0, -3);
-      console.log("totais: ", mirror.meses[dateMonthString]);
-      setMirrorMonthInfo(mirror.meses[dateMonthString]);
+      console.log("totais: ", props.mirror.meses[dateMonthString]);
+      setMirrorMonthInfo(props.mirror.meses[dateMonthString]);
     }
   }
 
