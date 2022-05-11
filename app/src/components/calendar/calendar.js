@@ -46,9 +46,27 @@ function CalendarHive(props) {
   const onViewChange = ({ action, activeStartDate, value, view }) => {
     console.log(action, activeStartDate, value, view)
     if(action === 'drillDown' && view === 'month'){
-      updateMirror(activeStartDate);
+      const today = new Date();
+      if(activeStartDate.getMonth() === today.getMonth() && activeStartDate.getFullYear() === today.getFullYear()){             
+        updateMirror(today);
+      } else {
+        updateMirror(activeStartDate);
+      }
     }
   };
+
+  const onActiveStartDateChange = ({ action, activeStartDate, value, view }) => 
+  {
+    console.log(action, activeStartDate, value, view)
+    if(view === 'month'){
+      const today = new Date();
+      if(activeStartDate.getMonth() === today.getMonth() && activeStartDate.getFullYear() === today.getFullYear()){        
+        updateMirror(today);
+      } else {
+        updateMirror(activeStartDate);
+      }
+    }
+  }
 
   function updateMirror(date) {
     let ano = date.getFullYear();
@@ -83,6 +101,7 @@ function CalendarHive(props) {
           onClickDay={onClick}
           value={value}
           onViewChange={onViewChange}
+          onActiveStartDateChange={onActiveStartDateChange}
         />
       </div>
 
