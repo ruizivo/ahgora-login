@@ -4,8 +4,9 @@ import AhgoraService from "../../service/ahgoraService";
 
 function Resume(props) {
 
-  const [mirrorDayInfo, setMirrorDayInfo] = useState(props.mirrorDayInfo);
-  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(props.mirrorMonthInfo);
+  const [selectDay, setSelectDay] = useState(null);
+  const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
+  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
   const [registerInProgress, setRegisterInProgress] = useState(false);
 
 
@@ -39,13 +40,20 @@ function Resume(props) {
       const dateMonthString = dateString.slice(0, -3);
       console.log("totais: ", props.mirror.meses[dateMonthString]);
       setMirrorMonthInfo(props.mirror.meses[dateMonthString]);
+      setSelectDay(new Date(props.date.getTime()));
     }
   }
 
   
   useEffect(() => {
-    console.log('deveria atualizar')
-    atualizaResumo();
+
+    if(props.date.getTime() !== selectDay?.getTime()){
+      console.log('deveria atualizar')
+      console.log(props.date.getTime())
+      console.log(selectDay?.getTime())
+      atualizaResumo();
+    }
+    
   });
 
   const registrarPonto = (event) => {

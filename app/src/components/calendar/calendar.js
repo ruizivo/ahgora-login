@@ -1,4 +1,4 @@
-import { useState, React } from "react";
+import { useState, React, useEffect } from "react";
 import "./calendar.css";
 import Calendar from "react-calendar";
 import AhgoraService from "../../service/ahgoraService";
@@ -8,11 +8,29 @@ function CalendarHive(props) {
   const [mirror, setMirror] = useState(props.data);
   const [value, setValue] = useState(new Date());
 
+  function getData(){
+    const date = new Date();
+    AhgoraService.espelhoPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0")).then(
+      (result) => {
+        setMirror(result)
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  
+  useEffect(() => {
+    if(mirror == null){
+      getData();
+    }
+  });
+
   const tileContent = ({ date, view }) => {
     const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
     return view === "month" ? (
       <div className="boxBatidas">
-        {mirror.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (
+        {mirror?.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (
             <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={ motivo!==undefined? `Ponto corrigido - Motivo: ${motivo}`: tipo }></p>
           ))}
       </div>
@@ -69,7 +87,7 @@ function CalendarHive(props) {
         setValue(date);
       },
       (error) => {
-        console.log("erro!");
+        console.log(error);
       }
     );
   }
@@ -95,7 +113,7 @@ function CalendarHive(props) {
         />
       </div>
 
-      <Resume date={value} mirror={mirror} onRegister={updateAfterRegister}/>
+      <Resume mirror={mirror} date={value} onRegister={updateAfterRegister}/>
       
     </div>
   );

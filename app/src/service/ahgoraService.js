@@ -21,6 +21,9 @@ const AhgoraService = {
             "userDetails",
             JSON.stringify(user)
           );
+
+          //this.getProfileImg();
+
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
           localStorage.setItem("credential", JSON.stringify(user));
 
@@ -36,6 +39,17 @@ const AhgoraService = {
         }
       });
     });
+  },
+  getProfileImg: function () {
+    let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
+    let profileImg = JSON.parse(localStorage.getItem("userDetails")).employee_id;
+    const header = `cookie: qwert-external=${jwt}`;
+      
+    let comand = `curl -H "${header}" https://www.ahgora.com.br/externo/get_image/${profileImg} --output profile.jpg`;
+    console.log(comand)
+    window.Neutralino.os.execCommand(comand);
+
+
   },
   espelhoPonto: function (year, month) {
     let today = new Date();

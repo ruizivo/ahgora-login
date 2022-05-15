@@ -15,11 +15,11 @@
   "modes": {
     "window": {
       "title": "Ahgora login ",
-      "width": 800,
+      "width": 856,
       "height": 500,
-      "minWidth": 800,
+      "minWidth": 856,
       "minHeight": 500,
-      "maxWidth": 800,
+      "maxWidth": 856,
       "maxHeight": 500,
       "resizable":false,
       "icon": "/app/public/logo192.png"

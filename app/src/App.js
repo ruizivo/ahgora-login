@@ -2,10 +2,11 @@ import { useState, React, useEffect} from "react";
 import "./App.css";
 import Login from "./components/login/login";
 import Home from "./components/home/home";
-import  AppContext from "./service/appContext";
-import Loading from "./components/loading/login";
+import AppContext from "./service/appContext";
+import Loading from "./components/loading/loading";
 import UpdateService from './service/updaterService';
 import AhgoraService from "./service/ahgoraService";
+import Config from "./components/config/config";
 
 
 function App() {
@@ -60,6 +61,9 @@ function App() {
       }  
       if (pageSelected === 'home') {
         return <Home />
+      } 
+      if (pageSelected === 'config') {
+        return <Config />
       } 
       if (pageSelected === 'update') {
         return (
