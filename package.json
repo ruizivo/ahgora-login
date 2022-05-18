@@ -5,7 +5,8 @@
   "scripts": {
     "start": "neu run",
     "start:lib": "neu run --frontend-lib-dev",
-    "debug": "cd app && npm run build && cd .. && neu run -- --window-enable-inspector"
+    "debug:run": "cd app && npm run build && cd .. && neu run -- --window-enable-inspector",
+    "debug": "neu run -- --window-enable-inspector"
   }
 
 }

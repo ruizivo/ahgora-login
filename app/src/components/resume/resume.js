@@ -1,6 +1,7 @@
 import { React, useState, useEffect  } from "react";
 import "./resume.css";
 import AhgoraService from "../../service/ahgoraService";
+import Loading from "../loading/loading";
 
 function Resume(props) {
 
@@ -8,7 +9,6 @@ function Resume(props) {
   const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
   const [registerInProgress, setRegisterInProgress] = useState(false);
-
 
 
   function updateMirror() {
@@ -40,20 +40,16 @@ function Resume(props) {
       const dateMonthString = dateString.slice(0, -3);
       console.log("totais: ", props.mirror.meses[dateMonthString]);
       setMirrorMonthInfo(props.mirror.meses[dateMonthString]);
+
       setSelectDay(new Date(props.date.getTime()));
     }
   }
 
   
   useEffect(() => {
-
     if(props.date.getTime() !== selectDay?.getTime()){
-      console.log('deveria atualizar')
-      console.log(props.date.getTime())
-      console.log(selectDay?.getTime())
       atualizaResumo();
     }
-    
   });
 
   const registrarPonto = (event) => {
