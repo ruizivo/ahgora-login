@@ -28,6 +28,16 @@ function CalendarHive(props) {
 
   const tileContent = ({ date, view }) => {
     const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
+
+    if(mirror?.dias[result]?.afastamentos === 1){
+
+      return (
+      <div className="boxBatidas">
+        <i class="bi bi-star"></i>
+      </div>
+      )
+    }
+
     return view === "month" ? (
       <div className="boxBatidas">
         {mirror?.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (

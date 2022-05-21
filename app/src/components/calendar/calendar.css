@@ -36,6 +36,12 @@
   width: 74%;
 }
 
+.boxBatidas i{
+  position: relative;
+  left: 18px;
+  top: -16px;
+}
+
 .batida {
   border: 1px solid;
   border-radius: 16px;
@@ -78,6 +84,8 @@
   margin-right: 2vw;
   width: 248px;
 }
+
+
 
 
 
