@@ -1,22 +1,28 @@
-import { React, useState, useEffect} from "react";
+import { React, Component} from "react";
 
 import "./clock.css";
-
-
  
-
-function Clock() {
-  const [tick, setTick] = useState(new Date());
-
-  useEffect(() => {
+class Clock extends Component {
+  constructor() {
+    super();
+    this.state = {
+      tick: new Date(),
+    };
+  }
+  componentDidMount() {
     setInterval(() => {
-      setTick(new Date());
+      this.setState({
+        tick: new Date()
+      })
     }, 1000);
-  }, []);
+  }
 
-  return (
-    <h2>{tick.toLocaleTimeString()}</h2>
-  );
+
+  render() {
+    return (
+      <h2>{this.state.tick.toLocaleTimeString()}</h2>
+    );
+  }
 }
 
 export default Clock;

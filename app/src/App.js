@@ -7,6 +7,8 @@ import Loading from "./components/loading/loading";
 import UpdateService from './service/updaterService';
 import AhgoraService from "./service/ahgoraService";
 import Config from "./components/config/config";
+import StorageService from "./service/storageService";
+import AlarmClock from "./components/alarm-clock/alarm-clock";
 
 
 function App() {
@@ -37,12 +39,12 @@ function App() {
           UpdateService.performUpdate();
         } else {
           // eslint-disable-next-line no-undef
-          window.Neutralino.storage.getData("userDetails").then((result) => {
-            AhgoraService.login(JSON.parse(result))
+          StorageService.loadCredentials().then(result => {
+            AhgoraService.login(result)
             setPageSelected('home');
           }, error =>{
             setPageSelected('login');
-          });
+          })
         }
       })
       
@@ -95,6 +97,7 @@ function App() {
   return (
     <AppContext.Provider value={userSettings}>
       <ShowPage />
+      <AlarmClock/>
     </AppContext.Provider >
   );
 }

@@ -1,3 +1,5 @@
+import StorageService from "./storageService";
+
 const AhgoraService = {
   // testes
   // window.Neutralino.os.showMessageBox('Welcome', 'Hello Neutralinojs');
@@ -16,13 +18,9 @@ const AhgoraService = {
 
       window.Neutralino.os.execCommand(comand).then((result) => {
         let userDetails = JSON.parse(result.stdOut);
-        if (userDetails.r === "success") {
-          window.Neutralino.storage.setData(
-            "userDetails",
-            JSON.stringify(user)
-          );
+        if (userDetails.r === "success") {      
+          StorageService.saveCredentials(user)
 
-          //this.getProfileImg();
 
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
           localStorage.setItem("credential", JSON.stringify(user));

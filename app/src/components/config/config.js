@@ -1,86 +1,117 @@
-import { React, useState} from "react";
-import Clock from "../clock/clock";
+import { React, Component, useState, useEffect} from "react";
+import AlarmClock from "../alarm-clock/alarm-clock";
 import Sidebar from "../sidebar/sidebar";
+import Clock from "../clock/clock";
+import StorageService from "../../service/storageService";
 
 import "./config.css";
 
+const AddTaskForm = ({ addTask }) => {
+  const [value, setValue] = useState("");
 
-function Config() {
+  const handleSubmit = e => {
+    e.preventDefault();
+    value && addTask(value)
+    setValue("");
+  };
 
-  const AddTaskForm = ({ addTask }) => {
-    const [value, setValue] = useState("");
-  
-    const handleSubmit = e => {
-      e.preventDefault();
-      value && addTask(value)
-      setValue("");
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="time"
+        value={value}
+        placeholder="Enter a title for this task…"
+        onChange={e => setValue(e.target.value)}
+      />
+      <button type="submit"><i class="bi bi-plus-square"></i></button>
+    </form>
+  );
+}
+
+const AlarmList = (props) => {
+
+  const [alarms, setAlarms] = useState(props.alarms);
+
+  const addTask = text => {
+    const alarm = [...alarms, text ]
+    setAlarms(alarm)
+    props.onAdd(alarm)
+  };
+
+  // const toggleTask = index => {
+  //   const newTasks = [...tasks];
+  //   newTasks[index].isCompleted = !newTasks[index].isCompleted;
+  //   setTasks(newTasks);
+  // };
+
+  const removeTask = index => {
+    const newTasks = [...alarms];
+    newTasks.splice(index, 1);
+    setAlarms(newTasks);
+  };
+
+  return (
+    <div className="todo-list">
+      <AddTaskForm addTask={addTask} />
+      {alarms.map((task, index) => (
+        <div className="todo">
+          <span>
+            {task}
+          </span>
+          <button onClick={() => removeTask(index)}><i class="bi bi-trash"></i></button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+class Config extends Component {
+  constructor() {
+    super();
+    
+    this.state = {
+      alarms: [],
+      enabled: true,
     };
-  
-    return (
-      <form onSubmit={handleSubmit}>
-        <input
-          type="time"
-          value={value}
-          placeholder="Enter a title for this task…"
-          onChange={e => setValue(e.target.value)}
-        />
-        <button type="submit"><i class="bi bi-plus-square"></i></button>
-      </form>
-    );
+
+
+    this.loadAlarmsFromDb() 
+    this.updateAlarms = this.updateAlarms.bind(this)
   }
 
-  const ToDoList = () => {
-
-    const [tasks, setTasks] = useState([{
-        text: "Like",
-        isCompleted: false
-      },{
-        text: "Comment",
-        isCompleted: false
-      },{
-        text: "Subscribe",
-        isCompleted: false
-      }]);
-  
-    const addTask = text => setTasks([...tasks, { text }]);
-  
-    const toggleTask = index => {
-      const newTasks = [...tasks];
-      newTasks[index].isCompleted = !newTasks[index].isCompleted;
-      setTasks(newTasks);
-    };
-  
-    const removeTask = index => {
-      const newTasks = [...tasks];
-      newTasks.splice(index, 1);
-      setTasks(newTasks);
-    };
-  
-    return (
-      <div className="todo-list">
-        {tasks.map((task, index) => (
-          <div className="todo">
-            <span onClick={() => toggleTask(index)} className={task.isCompleted ? "todo-text todo-completed" : "todo-text"}>
-              {task.text}
-            </span>
-            <button onClick={() => removeTask(index)}><i class="bi bi-trash"></i></button>
-          </div>
-        ))}
-        <AddTaskForm addTask={addTask} />
-      </div>
-    );
+  loadAlarmsFromDb() {
+    StorageService.loadConfig().then((config) => {
+      this.setState({
+        alarms: config.alarms,
+      });
+    });
   }
 
+  componentWillUnmount(){
+    this.save()
+  }
 
+  save(){
+    console.log(this.state.alarms)
+    StorageService.saveConfig(this.state);
+  }
 
+  updateAlarms(alarms){
+    this.setState({
+      alarms: alarms
+    })
+  }
+
+  render() {
   return (
     <div className="home">
       <Sidebar />
       <h1>tela config</h1>
-      <Clock/>
-      <ToDoList />
+      <Clock />
+      <AlarmList alarms={this.state.alarms} onAdd={this.updateAlarms}/>
     </div>
   );
+  }
 }
 
 export default Config;
