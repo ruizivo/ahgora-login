@@ -8,30 +8,30 @@ class AlarmClock extends Component {
 
     this.state = {
       currentTime: "",
-      tasks: [],
+      alarms: [],
     };
     this.loadAlarmsFromDb()
     this.setAlarmTime = this.setAlarmTime.bind(this);
   }
 
-  loadAlarmsFromDb() {
-    StorageService.loadConfig().then((config) => {
-      this.setState({
+  async loadAlarmsFromDb() {
+    const config = await StorageService.loadConfig();
+    this.setState({
         tasks: config.alarms,
       });
-    });
   }
 
   setAlarmTime(event) {
     event.preventDefault();
     const inputAlarmTimeModified = event.target.value + ":00";
     this.setState({
-      tasks: [...this.state.tasks, inputAlarmTimeModified],
+      tasks: [...this.state.alarms, inputAlarmTimeModified],
     });
   }
 
   checkAlarmClock() {
-    this.state.tasks.forEach((task) => {
+    this.loadAlarmsFromDb()
+    this.state.alarms.forEach((task) => {
       if (this.state.currentTime === task + ":00") {
         console.log("alarme aki!");
         window.Neutralino.os.showNotification(

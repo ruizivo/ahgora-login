@@ -6,13 +6,13 @@ class Clock extends Component {
   constructor() {
     super();
     this.state = {
-      tick: new Date(),
+      clock: new Date(),
     };
   }
   componentDidMount() {
     setInterval(() => {
       this.setState({
-        tick: new Date()
+        clock: new Date()
       })
     }, 1000);
   }
@@ -20,7 +20,7 @@ class Clock extends Component {
 
   render() {
     return (
-      <h2>{this.state.tick.toLocaleTimeString()}</h2>
+      <h2>{this.state.clock.toLocaleTimeString()}</h2>
     );
   }
 }

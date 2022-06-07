@@ -1,5 +1,4 @@
-import { React, Component, useState, useEffect} from "react";
-import AlarmClock from "../alarm-clock/alarm-clock";
+import { React, Component, useState} from "react";
 import Sidebar from "../sidebar/sidebar";
 import Clock from "../clock/clock";
 import StorageService from "../../service/storageService";
@@ -30,11 +29,11 @@ const AddTaskForm = ({ addTask }) => {
 
 const AlarmList = (props) => {
 
-  const [alarms, setAlarms] = useState(props.alarms);
+  //const [alarms, setAlarms] = useState(props.alarms);
 
   const addTask = text => {
-    const alarm = [...alarms, text ]
-    setAlarms(alarm)
+    const alarm = [...props.alarms, text ]
+    //setAlarms(alarm)
     props.onAdd(alarm)
   };
 
@@ -45,15 +44,16 @@ const AlarmList = (props) => {
   // };
 
   const removeTask = index => {
-    const newTasks = [...alarms];
-    newTasks.splice(index, 1);
-    setAlarms(newTasks);
+    const alarm = [...props.alarms];
+    alarm.splice(index, 1);
+    //setAlarms(alarm);
+    props.onAdd(alarm)
   };
 
   return (
     <div className="todo-list">
       <AddTaskForm addTask={addTask} />
-      {alarms.map((task, index) => (
+      {props.alarms?.map((task, index) => (
         <div className="todo">
           <span>
             {task}
@@ -74,17 +74,19 @@ class Config extends Component {
       enabled: true,
     };
 
-
-    this.loadAlarmsFromDb() 
     this.updateAlarms = this.updateAlarms.bind(this)
   }
 
-  loadAlarmsFromDb() {
-    StorageService.loadConfig().then((config) => {
-      this.setState({
-        alarms: config.alarms,
-      });
+  async loadAlarmsFromDb() {
+    const config = await StorageService.loadConfig()
+    this.setState({
+      tasks: config.alarms,
     });
+    console.log(this.state.alarms)
+  }
+
+  componentDidMount() {
+    this.loadAlarmsFromDb() 
   }
 
   componentWillUnmount(){
