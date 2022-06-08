@@ -17,7 +17,7 @@ class AlarmClock extends Component {
   async loadAlarmsFromDb() {
     const config = await StorageService.loadConfig();
     this.setState({
-        tasks: config.alarms,
+        alarms: config.alarms,
       });
   }
 
@@ -25,14 +25,14 @@ class AlarmClock extends Component {
     event.preventDefault();
     const inputAlarmTimeModified = event.target.value + ":00";
     this.setState({
-      tasks: [...this.state.alarms, inputAlarmTimeModified],
+      alarms: [...this.state.alarms, inputAlarmTimeModified],
     });
   }
 
   checkAlarmClock() {
     this.loadAlarmsFromDb()
-    this.state.alarms.forEach((task) => {
-      if (this.state.currentTime === task + ":00") {
+    this.state.alarms.forEach((alarm) => {
+      if (this.state.currentTime === alarm + ":00") {
         console.log("alarme aki!");
         window.Neutralino.os.showNotification(
           "Não esqueça de bater o seu ponto",

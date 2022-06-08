@@ -29,24 +29,15 @@ const AddTaskForm = ({ addTask }) => {
 
 const AlarmList = (props) => {
 
-  //const [alarms, setAlarms] = useState(props.alarms);
-
   const addTask = text => {
     const alarm = [...props.alarms, text ]
-    //setAlarms(alarm)
+
     props.onAdd(alarm)
   };
-
-  // const toggleTask = index => {
-  //   const newTasks = [...tasks];
-  //   newTasks[index].isCompleted = !newTasks[index].isCompleted;
-  //   setTasks(newTasks);
-  // };
 
   const removeTask = index => {
     const alarm = [...props.alarms];
     alarm.splice(index, 1);
-    //setAlarms(alarm);
     props.onAdd(alarm)
   };
 
@@ -80,7 +71,7 @@ class Config extends Component {
   async loadAlarmsFromDb() {
     const config = await StorageService.loadConfig()
     this.setState({
-      tasks: config.alarms,
+      alarms: config.alarms,
     });
     console.log(this.state.alarms)
   }
@@ -90,18 +81,21 @@ class Config extends Component {
   }
 
   componentWillUnmount(){
-    this.save()
   }
 
-  save(){
-    console.log(this.state.alarms)
-    StorageService.saveConfig(this.state);
+  save(alarms){
+    const config = {
+      alarms: alarms,
+    }
+
+    StorageService.saveConfig(config);
   }
 
   updateAlarms(alarms){
     this.setState({
       alarms: alarms
     })
+    this.save(alarms)
   }
 
   render() {
@@ -110,7 +104,7 @@ class Config extends Component {
       <Sidebar />
       <h1>tela config</h1>
       <Clock />
-      <AlarmList alarms={this.state.alarms} onAdd={this.updateAlarms}/>
+      <AlarmList alarms={this.state?.alarms} onAdd={this.updateAlarms}/>
     </div>
   );
   }
