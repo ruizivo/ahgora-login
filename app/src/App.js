@@ -1,5 +1,6 @@
 import { useState, React, useEffect} from "react";
-import "./App.css";
+import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
+
 import Login from "./components/login/login";
 import Home from "./components/home/home";
 import AppContext from "./service/appContext";
@@ -8,17 +9,19 @@ import UpdateService from './service/updaterService';
 import AhgoraService from "./service/ahgoraService";
 import Config from "./components/config/config";
 import StorageService from "./service/storageService";
-import AlarmClock from "./components/alarm-clock/alarm-clock";
 
+import "./App.css";
+
+const createAlarmWorker = createWorkerFactory(() => import('./worker/alarmClock'));
 
 function App() {
 
   const [pageSelected, setPageSelected] = useState(null);
-
   const userSettings = {
     pageSelected,
     setPageSelected,
   };
+  const alarmClockWorker = useWorker(createAlarmWorker);
 
   document.addEventListener("contextmenu", function (e){
       e.preventDefault();
@@ -28,6 +31,11 @@ function App() {
   useEffect(() => {
     if(pageSelected == null){
       init();
+      (async () => {
+        
+        alarmClockWorker.init();
+        
+      })();
     }
   });
 
@@ -97,7 +105,6 @@ function App() {
   return (
     <AppContext.Provider value={userSettings}>
       <ShowPage />
-      <AlarmClock/>
     </AppContext.Provider >
   );
 }

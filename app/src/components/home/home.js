@@ -1,16 +1,18 @@
-import {  React  } from "react";
+import {  Component, React  } from "react";
 import CalendarHive from "../calendar/calendar";
 import Sidebar from "../sidebar/sidebar";
 import "./home.css";
 
-function Home() {
+class Home extends Component {
 
-  return (
-    <div className="home">
-      <Sidebar />
-      <CalendarHive />
-    </div>
-  );
+  render(){
+    return (
+      <div className="home">
+        <Sidebar />
+        <CalendarHive />
+      </div>
+    );
+  }
 }
 
 export default Home;

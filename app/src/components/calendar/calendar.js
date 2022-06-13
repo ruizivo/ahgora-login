@@ -1,30 +1,40 @@
 import { useState, React, useEffect } from "react";
-import "./calendar.css";
+import {createWorkerFactory, useWorker, terminate} from '@shopify/react-web-worker';
+
 import Calendar from "react-calendar";
 import AhgoraService from "../../service/ahgoraService";
 import Resume from "../resume/resume";
 
-function CalendarHive(props) {
-  const [mirror, setMirror] = useState(props.data);
-  const [value, setValue] = useState(new Date());
+import "./calendar.css";
 
-  function getData(){
-    const date = new Date();
-    AhgoraService.espelhoPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0")).then(
-      (result) => {
-        setMirror(result)
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
+
+function CalendarHive(props) {
+  const [mirror, setMirror] = useState(props.data)
+  const [value, setValue] = useState(new Date())
+
+  const worker = useWorker(createWorker)
+
+  async function getData(){
+    const date = new Date()
+    worker.consultaPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0")).then(
+      webWorkerEspelho =>{
+        setMirror(webWorkerEspelho)
+    })
   }
+  
   
   useEffect(() => {
     if(mirror == null){
       getData();
     }
   });
+
+  useEffect( () => {
+    return () => {
+      terminate(worker);
+    }
+  }, []);
 
   const tileContent = ({ date, view }) => {
     const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
@@ -45,16 +55,14 @@ function CalendarHive(props) {
           ))}
       </div>
       
-    ) : null;
+    ) : null
   };
 
   const tileClassName = ({ date, view }) => {
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
+    var today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-    return view === "month" && date.toDateString() === today.toDateString()
-      ? "today"
-      : null;
+    return view === "month" && date.toDateString() === today.toDateString() ? "today"  : null
   };
 
   function onClick(value) {
@@ -64,11 +72,11 @@ function CalendarHive(props) {
   const onViewChange = ({ action, activeStartDate, value, view }) => {
     console.log(action, activeStartDate, value, view)
     if(action === 'drillDown' && view === 'month'){
-      const today = new Date();
+      const today = new Date()
       if(activeStartDate.getMonth() === today.getMonth() && activeStartDate.getFullYear() === today.getFullYear()){             
-        updateMirror(today);
+        updateMirror(today)
       } else {
-        updateMirror(activeStartDate);
+        updateMirror(activeStartDate)
       }
     }
   };
@@ -77,35 +85,29 @@ function CalendarHive(props) {
   {
     console.log(action, activeStartDate, value, view)
     if(view === 'month'){
-      const today = new Date();
+      const today = new Date()
       if(activeStartDate.getMonth() === today.getMonth() && activeStartDate.getFullYear() === today.getFullYear()){        
-        updateMirror(today);
+        updateMirror(today)
       } else {
-        updateMirror(activeStartDate);
+        updateMirror(activeStartDate)
       }
     }
   }
 
-  function updateMirror(date) {
-    let ano = date.getFullYear();
+  async function updateMirror(date) {
+    let ano = date.getFullYear()
     let mes = String(date.getMonth() + 1).padStart(2, "0")
 
-    AhgoraService.espelhoPonto(ano,mes).then(
-      (result) => {
-        setMirror(result);   
-        onClick(date); 
-        setValue(date);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    const webWorkerEspelho = await worker.consultaPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"))
+    setMirror(webWorkerEspelho);
+    onClick(date)
+    setValue(date)
   }
 
   function updateAfterRegister(mirror){
-    let today = new Date();
-    setMirror(mirror);   
-    setValue(today);
+    let today = new Date()
+    setMirror(mirror)
+    setValue(today)
   }
 
   return (

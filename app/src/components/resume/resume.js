@@ -1,33 +1,30 @@
 import { React, useState, useEffect  } from "react";
-import "./resume.css";
+import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
+
 import AhgoraService from "../../service/ahgoraService";
-import Loading from "../loading/loading";
+
+import "./resume.css";
+
+const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
 
 function Resume(props) {
 
   const [selectDay, setSelectDay] = useState(null);
   const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
-  const [registerInProgress, setRegisterInProgress] = useState(false);
+  const [registerInProgress, setRegisterInProgress] = useState(false); 
+  
+  const worker = useWorker(createWorker)
 
 
-  function updateMirror() {
+  async function updateMirror() {
     let ano = props.date.getFullYear();
     let mes = String(props.date.getMonth() + 1).padStart(2, "0")
 
-    AhgoraService.espelhoPonto(ano,mes).then(
-      (mirror) => {     
-        props.onRegister(mirror);
-
-        atualizaResumo();
-
-        setRegisterInProgress(false);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
+    const webWorkerEspelho = await worker.consultaPonto(ano, mes)
+    props.onRegister(webWorkerEspelho)
+    atualizaResumo();
+    setRegisterInProgress(false);
   }
 
   function atualizaResumo() {

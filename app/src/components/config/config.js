@@ -1,4 +1,5 @@
 import { React, Component, useState} from "react";
+
 import Sidebar from "../sidebar/sidebar";
 import Clock from "../clock/clock";
 import StorageService from "../../service/storageService";
@@ -73,7 +74,6 @@ class Config extends Component {
     this.setState({
       alarms: config.alarms,
     });
-    console.log(this.state.alarms)
   }
 
   componentDidMount() {
