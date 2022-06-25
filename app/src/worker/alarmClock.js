@@ -23,12 +23,12 @@ function checkAlarmClock() {
   loadAlarmsFromDb();
   alarms?.forEach((alarm) => {
     if (currentTime === alarm + ":00") {
-      console.log("alarme aki!");
       window.Neutralino.os.showNotification(
-        "Não esqueça de bater o seu ponto",
-        "Descanço merecido, não esquece de bater o ponto",
+        "Hora de bater o ponto",
+        "Não esquece de bater o seu ponto!!!",
         "INFO"
       );
+      
     }
   });
 }

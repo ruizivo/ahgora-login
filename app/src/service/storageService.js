@@ -54,7 +54,11 @@ const StorageService = {
         return new Promise((resolve, reject) => {
             this.load().then(
                 result =>{
-                   resolve(result.config)
+                    if(result.config === undefined || ( result.config !== undefined && result.config.alarms === undefined)){
+                        const alarms = JSON.parse(`{"alarms":["08:00","12:00","13:00","17:00"]}`)
+                        this.saveConfig(alarms)
+                    }
+                    resolve(result.config)
                 }, error=> {
                     reject()
                 })

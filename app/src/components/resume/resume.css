@@ -24,3 +24,10 @@
  .ctnFlex p{
      margin: 4px 0;
  }
+
+ .clock{
+    color: #fff;
+    font-family: monospace;
+    font-size: 20px;
+    text-align: center;
+ }

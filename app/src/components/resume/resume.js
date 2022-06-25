@@ -4,6 +4,7 @@ import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
 import AhgoraService from "../../service/ahgoraService";
 
 import "./resume.css";
+import Clock from "../clock/clock";
 
 const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
 
@@ -67,7 +68,10 @@ function Resume(props) {
 
   return (
     <div className="resumo">
-      
+              
+        <div className="clock">
+          <Clock />
+        </div>
         <div className="registraPonto">
           <button onClick={registrarPonto} className='btnRegister' disabled={registerInProgress}>Registrar</button>
         </div>
@@ -102,6 +106,7 @@ function Resume(props) {
             </div>
           ))}
         </div>
+
       </div>
   );
 }

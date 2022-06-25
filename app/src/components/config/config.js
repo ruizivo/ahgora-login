@@ -102,8 +102,7 @@ class Config extends Component {
   return (
     <div className="home">
       <Sidebar />
-      <h1>tela config</h1>
-      <Clock />
+      <h1>Lembretes: </h1>
       <AlarmList alarms={this.state?.alarms} onAdd={this.updateAlarms}/>
     </div>
   );
