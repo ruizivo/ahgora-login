@@ -1,21 +1,27 @@
 import { useState, React, useEffect} from "react";
-import "./App.css";
+import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
+
 import Login from "./components/login/login";
 import Home from "./components/home/home";
-import  AppContext from "./service/appContext";
-import Loading from "./components/loading/login";
+import AppContext from "./service/appContext";
+import Loading from "./components/loading/loading";
 import UpdateService from './service/updaterService';
 import AhgoraService from "./service/ahgoraService";
+import Config from "./components/config/config";
+import StorageService from "./service/storageService";
 
+import "./App.css";
+
+const createAlarmWorker = createWorkerFactory(() => import('./worker/alarmClock'));
 
 function App() {
 
   const [pageSelected, setPageSelected] = useState(null);
-
   const userSettings = {
     pageSelected,
     setPageSelected,
   };
+  const alarmClockWorker = useWorker(createAlarmWorker);
 
   document.addEventListener("contextmenu", function (e){
       e.preventDefault();
@@ -25,6 +31,11 @@ function App() {
   useEffect(() => {
     if(pageSelected == null){
       init();
+      (async () => {
+        
+        alarmClockWorker.init();
+        
+      })();
     }
   });
 
@@ -36,12 +47,12 @@ function App() {
           UpdateService.performUpdate();
         } else {
           // eslint-disable-next-line no-undef
-          window.Neutralino.storage.getData("userDetails").then((result) => {
-            AhgoraService.login(JSON.parse(result))
+          StorageService.loadCredentials().then(result => {
+            AhgoraService.login(result)
             setPageSelected('home');
           }, error =>{
             setPageSelected('login');
-          });
+          })
         }
       })
       
@@ -60,6 +71,9 @@ function App() {
       }  
       if (pageSelected === 'home') {
         return <Home />
+      } 
+      if (pageSelected === 'config') {
+        return <Config />
       } 
       if (pageSelected === 'update') {
         return (

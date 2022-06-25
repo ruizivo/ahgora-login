@@ -15,12 +15,12 @@
   "modes": {
     "window": {
       "title": "Ahgora login ",
-      "width": 800,
-      "height": 500,
-      "minWidth": 800,
-      "minHeight": 500,
-      "maxWidth": 800,
-      "maxHeight": 500,
+      "width": 856,
+      "height": 520,
+      "minWidth": 856,
+      "minHeight": 520,
+      "maxWidth": 856,
+      "maxHeight": 520,
       "resizable":false,
       "icon": "/app/public/logo192.png"
     }
@@ -30,8 +30,8 @@
     "resourcesPath": "/app/build/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/app/public/neutralino.js",
-    "binaryVersion": "4.5.0",
-    "clientVersion": "3.4.0",
+    "binaryVersion": "4.6.0",
+    "clientVersion": "3.5.0",
     "frontendLibrary": {
       "patchFile": "/app/public/index.html",
       "devUrl": "http://localhost:3000"

@@ -1,3 +1,5 @@
+import StorageService from "./storageService";
+
 const AhgoraService = {
   // testes
   // window.Neutralino.os.showMessageBox('Welcome', 'Hello Neutralinojs');
@@ -16,11 +18,10 @@ const AhgoraService = {
 
       window.Neutralino.os.execCommand(comand).then((result) => {
         let userDetails = JSON.parse(result.stdOut);
-        if (userDetails.r === "success") {
-          window.Neutralino.storage.setData(
-            "userDetails",
-            JSON.stringify(user)
-          );
+        if (userDetails.r === "success") {      
+          StorageService.saveCredentials(user)
+
+
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
           localStorage.setItem("credential", JSON.stringify(user));
 
@@ -36,6 +37,17 @@ const AhgoraService = {
         }
       });
     });
+  },
+  getProfileImg: function () {
+    let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
+    let profileImg = JSON.parse(localStorage.getItem("userDetails")).employee_id;
+    const header = `cookie: qwert-external=${jwt}`;
+      
+    let comand = `curl -H "${header}" https://www.ahgora.com.br/externo/get_image/${profileImg} --output profile.jpg`;
+    console.log(comand)
+    window.Neutralino.os.execCommand(comand);
+
+
   },
   espelhoPonto: function (year, month) {
     let today = new Date();

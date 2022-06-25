@@ -1,32 +1,31 @@
 import { React, useState, useEffect  } from "react";
-import "./resume.css";
+import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
+
 import AhgoraService from "../../service/ahgoraService";
+
+import "./resume.css";
+import Clock from "../clock/clock";
+
+const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
 
 function Resume(props) {
 
-  const [mirrorDayInfo, setMirrorDayInfo] = useState(props.mirrorDayInfo);
-  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(props.mirrorMonthInfo);
-  const [registerInProgress, setRegisterInProgress] = useState(false);
+  const [selectDay, setSelectDay] = useState(null);
+  const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
+  const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
+  const [registerInProgress, setRegisterInProgress] = useState(false); 
+  
+  const worker = useWorker(createWorker)
 
 
-
-  function updateMirror() {
+  async function updateMirror() {
     let ano = props.date.getFullYear();
     let mes = String(props.date.getMonth() + 1).padStart(2, "0")
 
-    AhgoraService.espelhoPonto(ano,mes).then(
-      (mirror) => {     
-        props.onRegister(mirror);
-
-        atualizaResumo();
-
-        setRegisterInProgress(false);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
+    const webWorkerEspelho = await worker.consultaPonto(ano, mes)
+    props.onRegister(webWorkerEspelho)
+    atualizaResumo();
+    setRegisterInProgress(false);
   }
 
   function atualizaResumo() {
@@ -39,13 +38,16 @@ function Resume(props) {
       const dateMonthString = dateString.slice(0, -3);
       console.log("totais: ", props.mirror.meses[dateMonthString]);
       setMirrorMonthInfo(props.mirror.meses[dateMonthString]);
+
+      setSelectDay(new Date(props.date.getTime()));
     }
   }
 
   
   useEffect(() => {
-    console.log('deveria atualizar')
-    atualizaResumo();
+    if(props.date.getTime() !== selectDay?.getTime()){
+      atualizaResumo();
+    }
   });
 
   const registrarPonto = (event) => {
@@ -66,7 +68,10 @@ function Resume(props) {
 
   return (
     <div className="resumo">
-      
+              
+        <div className="clock">
+          <Clock />
+        </div>
         <div className="registraPonto">
           <button onClick={registrarPonto} className='btnRegister' disabled={registerInProgress}>Registrar</button>
         </div>
@@ -101,6 +106,7 @@ function Resume(props) {
             </div>
           ))}
         </div>
+
       </div>
   );
 }

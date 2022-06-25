@@ -1,0 +1,41 @@
+.sidebar {
+  height: 100%;
+  width: 56px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #17191E;
+  transition: 0.5s;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.sidebar i {
+  padding: 8px 8px 8px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar i:hover {
+  color: #f1f1f1;
+}
+
+.activeItem {
+  color: white !important;
+}
+
+.profile {
+  border-radius: 54px;
+  height: 40px;
+  margin: 8px;
+  width: 40px;
+  background-color: blue;
+}
+
+.exit {
+  bottom: 0px;
+  position: absolute;
+}

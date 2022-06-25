@@ -1,54 +1,18 @@
-import { useState, React, useEffect  } from "react";
-import AhgoraService from "../../service/ahgoraService";
+import {  Component, React  } from "react";
 import CalendarHive from "../calendar/calendar";
-import Loading from "../loading/login";
+import Sidebar from "../sidebar/sidebar";
 import "./home.css";
 
-function Home() {
+class Home extends Component {
 
-  const [data, setData] = useState(null);
-
-  function getData(){
-    const date = new Date();
-    AhgoraService.espelhoPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0")).then(
-      (result) => {
-        setData(result)
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  
-  useEffect(() => {
-    if(data == null){
-      getData();
-    }
-  });
-
-  function ShowHome(props) {
-    const isOK = props.isOK;
-    if (isOK) {
-      return (
-          <CalendarHive data={data}/>
-      );
-    }
+  render(){
     return (
-      <div>
-        <div className="App">
-        <header className="App-header">
-          <Loading/>
-        </header>
-        </div>
+      <div className="home">
+        <Sidebar />
+        <CalendarHive />
       </div>
     );
   }
-
-  return (
-    <div>
-      <ShowHome isOK={data != null}/>
-    </div>
-  );
 }
 
 export default Home;
