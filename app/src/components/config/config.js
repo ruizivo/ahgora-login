@@ -1,7 +1,6 @@
 import { React, Component, useState} from "react";
 
 import Sidebar from "../sidebar/sidebar";
-import Clock from "../clock/clock";
 import StorageService from "../../service/storageService";
 
 import "./config.css";

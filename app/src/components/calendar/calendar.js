@@ -2,7 +2,6 @@ import { useState, React, useEffect } from "react";
 import {createWorkerFactory, useWorker, terminate} from '@shopify/react-web-worker';
 
 import Calendar from "react-calendar";
-import AhgoraService from "../../service/ahgoraService";
 import Resume from "../resume/resume";
 
 import "./calendar.css";
@@ -34,7 +33,7 @@ function CalendarHive(props) {
     return () => {
       terminate(worker);
     }
-  }, []);
+  }, [worker]);
 
   const tileContent = ({ date, view }) => {
     const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
@@ -98,7 +97,7 @@ function CalendarHive(props) {
     let ano = date.getFullYear()
     let mes = String(date.getMonth() + 1).padStart(2, "0")
 
-    const webWorkerEspelho = await worker.consultaPonto(date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"))
+    const webWorkerEspelho = await worker.consultaPonto(ano, mes)
     setMirror(webWorkerEspelho);
     onClick(date)
     setValue(date)
