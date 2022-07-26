@@ -6,7 +6,7 @@ const UpdaterService = {
         let comand = `curl POST https://api.github.com/repos/ruizivo/ahgora-login/releases`;
         window.Neutralino.os.execCommand(comand).then((result) => {
             let repo = JSON.parse(result.stdOut);
-            if (repo != null) {
+            if (repo !== null) {
               let url = 'https://github.com/ruizivo/ahgora-login/releases/download/%name%/manifest.json';
               url = url.replace('%name%',repo[0].name);
               resolve(url);

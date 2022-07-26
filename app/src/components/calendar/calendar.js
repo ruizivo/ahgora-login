@@ -24,7 +24,7 @@ function CalendarHive(props) {
   
   
   useEffect(() => {
-    if(mirror == null){
+    if(mirror === null){
       getData();
     }
   });
@@ -42,7 +42,7 @@ function CalendarHive(props) {
 
       return (
       <div className="boxBatidas">
-        <i class="bi bi-star"></i>
+        <i class="bi bi-star" />
       </div>
       )
     }
@@ -50,7 +50,7 @@ function CalendarHive(props) {
     return view === "month" ? (
       <div className="boxBatidas">
         {mirror?.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (
-            <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={ motivo!==undefined? `Ponto corrigido - Motivo: ${motivo}`: tipo }></p>
+            <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={ motivo!==undefined? `Ponto corrigido - Motivo: ${motivo}`: tipo } key={hora} />
           ))}
       </div>
       

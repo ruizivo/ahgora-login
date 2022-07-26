@@ -29,9 +29,9 @@ function Sidebar() {
       {/* <p class="profile">
         <img src={"profile.jpg"} alt="profile"></img>
       </p> */}
-      <i onClick={goToCalendar} className={`bi bi-calendar3  ${selectItem("home") ? "activeItem" : ""} `}></i>
-      <i onClick={goToConfig} className={`bi bi-gear-fill  ${selectItem("config") ? "activeItem" : ""} `}></i>
-      <i onClick={goToLogin} class="bi bi-box-arrow-left exit"></i>
+      <i onClick={goToCalendar} className={`bi bi-calendar3  ${selectItem("home") ? "activeItem" : ""} `} aria-hidden="true" role="button"/>
+      <i onClick={goToConfig} className={`bi bi-gear-fill  ${selectItem("config") ? "activeItem" : ""} `} aria-hidden="true" role="button"/>
+      <i onClick={goToLogin} class="bi bi-box-arrow-left exit" aria-hidden="true" role="button"/>
     </div>
   );
 }
