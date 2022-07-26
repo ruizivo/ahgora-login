@@ -22,7 +22,7 @@ const AddTaskForm = ({ addTask }) => {
         placeholder="Enter a title for this task…"
         onChange={e => setValue(e.target.value)}
       />
-      <button type="submit"><i class="bi bi-plus-square" /></button>
+      <button type="submit"><i className="bi bi-plus-square" /></button>
     </form>
   );
 }

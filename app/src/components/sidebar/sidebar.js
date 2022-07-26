@@ -25,13 +25,13 @@ function Sidebar() {
 
 
   return (
-    <div id="mySidebar" class="sidebar">
+    <div id="mySidebar" className="sidebar">
       {/* <p class="profile">
         <img src={"profile.jpg"} alt="profile"></img>
       </p> */}
       <i onClick={goToCalendar} className={`bi bi-calendar3  ${selectItem("home") ? "activeItem" : ""} `} aria-hidden="true" role="button"/>
       <i onClick={goToConfig} className={`bi bi-gear-fill  ${selectItem("config") ? "activeItem" : ""} `} aria-hidden="true" role="button"/>
-      <i onClick={goToLogin} class="bi bi-box-arrow-left exit" aria-hidden="true" role="button"/>
+      <i onClick={goToLogin} className="bi bi-box-arrow-left exit" aria-hidden="true" role="button"/>
     </div>
   );
 }
