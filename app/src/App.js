@@ -29,7 +29,7 @@ function App() {
 
 
   useEffect(() => {
-    if(pageSelected == null){
+    if(pageSelected === null){
       init();
       (async () => {
         
@@ -66,7 +66,7 @@ function App() {
   function ShowPage() {
 
 
-      if (pageSelected=== 'login') {
+      if (pageSelected === 'login') {
         return <Login />
       }  
       if (pageSelected === 'home') {

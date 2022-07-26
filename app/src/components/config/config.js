@@ -49,7 +49,7 @@ const AlarmList = (props) => {
           <span>
             {task}
           </span>
-          <button onClick={() => removeTask(index)}><i class="bi bi-trash" /></button>
+          <button type="button" onClick={() => removeTask(index)}><i class="bi bi-trash" /></button>
         </div>
       ))}
     </div>
