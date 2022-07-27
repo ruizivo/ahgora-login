@@ -1,33 +1,33 @@
 .btnRegister {
-    background: #2ecc71;
-    border: 1px solid #27ae60;
-    color: #fff;
-    font-size: .8em;
-    font-weight: 800;
-    margin-bottom: 20px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    width: 100%;
-    cursor: pointer;
+  background: #2ecc71;
+  border: 1px solid #27ae60;
+  color: #fff;
+  font-size: 0.8em;
+  font-weight: 800;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  width: 100%;
+  cursor: pointer;
 }
 
-.btnRegister:hover{
-    background:#2CC06B; 
+.btnRegister:hover {
+  background: #2cc06b;
 }
 
-.btnRegister:disabled{
-    background:  #fff;
-    color: #ccc;
-    cursor: no-drop;
- }
+.btnRegister:disabled {
+  background: #fff;
+  color: #ccc;
+  cursor: no-drop;
+}
 
- .ctnFlex p{
-     margin: 4px 0;
- }
+.ctnFlex p {
+  margin: 4px 0;
+}
 
- .clock{
-    color: #fff;
-    font-family: monospace;
-    font-size: 20px;
-    text-align: center;
- }
+.clock {
+  color: #fff;
+  font-family: monospace;
+  font-size: 20px;
+  text-align: center;
+}

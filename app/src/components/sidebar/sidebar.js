@@ -1,39 +1,55 @@
-import { React,useContext  } from "react";
-import AppContext from "../../service/appContext";
-import "./sidebar.css";
-import "../../assets/bootstrap-icons.css";
+import { React, useContext } from 'react'
+import AppContext from '../../service/appContext'
+import './sidebar.css'
+import '../../assets/bootstrap-icons.css'
 
-function Sidebar() {
+function Sidebar () {
+  const myContext = useContext(AppContext)
 
-  const myContext = useContext(AppContext);
-
-  function selectItem(page){
-    return myContext.pageSelected === page? true : false;
+  function selectItem (page) {
+    return myContext.pageSelected === page
   }
 
-  function goToLogin(){
+  function goToLogin () {
     myContext.setPageSelected('login')
   }
-  function goToConfig(){
+  function goToConfig () {
     myContext.setPageSelected('config')
   }
 
-
-  function goToCalendar(){
+  function goToCalendar () {
     myContext.setPageSelected('home')
   }
 
-
   return (
-    <div id="mySidebar" class="sidebar">
+    <div id='mySidebar' class='sidebar'>
       {/* <p class="profile">
         <img src={"profile.jpg"} alt="profile"></img>
       </p> */}
-      <i onClick={goToCalendar} className={`bi bi-calendar3  ${selectItem("home") ? "activeItem" : ""} `} aria-hidden="true" role="button"/>
-      <i onClick={goToConfig} className={`bi bi-gear-fill  ${selectItem("config") ? "activeItem" : ""} `} aria-hidden="true" role="button"/>
-      <i onClick={goToLogin} class="bi bi-box-arrow-left exit" aria-hidden="true" role="button"/>
+      <i
+        onClick={goToCalendar}
+        className={`bi bi-calendar3  ${
+          selectItem('home') ? 'activeItem' : ''
+        } `}
+        aria-hidden='true'
+        role='button'
+      />
+      <i
+        onClick={goToConfig}
+        className={`bi bi-gear-fill  ${
+          selectItem('config') ? 'activeItem' : ''
+        } `}
+        aria-hidden='true'
+        role='button'
+      />
+      <i
+        onClick={goToLogin}
+        class='bi bi-box-arrow-left exit'
+        aria-hidden='true'
+        role='button'
+      />
     </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar

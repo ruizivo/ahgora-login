@@ -7,11 +7,7 @@
   "url": "/",
   "enableServer": true,
   "enableNativeAPI": true,
-  "nativeAllowList": [
-    "app.*",
-    "os.*",
-    "storage.*"
-  ],
+  "nativeAllowList": ["app.*", "os.*", "storage.*"],
   "modes": {
     "window": {
       "title": "Ahgora login ",
@@ -21,7 +17,7 @@
       "minHeight": 520,
       "maxWidth": 856,
       "maxHeight": 520,
-      "resizable":false,
+      "resizable": false,
       "icon": "/app/public/logo192.png"
     }
   },

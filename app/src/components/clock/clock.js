@@ -1,28 +1,26 @@
-import { React, Component} from "react";
+import { React, Component } from 'react'
 
-import "./clock.css";
- 
+import './clock.css'
+
 class Clock extends Component {
-  constructor() {
-    super();
+  constructor () {
+    super()
     this.state = {
-      clock: new Date(),
-    };
+      clock: new Date()
+    }
   }
-  componentDidMount() {
+
+  componentDidMount () {
     setInterval(() => {
       this.setState({
         clock: new Date()
       })
-    }, 1000);
+    }, 1000)
   }
 
-
-  render() {
-    return (
-      <div>{this.state.clock.toLocaleString()}</div>
-    );
+  render () {
+    return <div>{this.state.clock.toLocaleString()}</div>
   }
 }
 
-export default Clock;
+export default Clock
