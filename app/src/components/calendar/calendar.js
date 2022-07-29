@@ -22,9 +22,8 @@ function CalendarHive(props) {
     })
   }
   
-  
   useEffect(() => {
-    if(mirror === null){
+    if(mirror === null || mirror === undefined){
       getData();
     }
   });
