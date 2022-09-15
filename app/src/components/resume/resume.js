@@ -78,12 +78,12 @@ function Resume(props) {
 
         <div className="espelho-batidas">
           {mirrorDayInfo?.batidas.map(({ hora, tipo , motivo}) => (
-            <p className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
+            <p key={hora} className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
           ))}
         </div>
         <div>
           {mirrorDayInfo?.totais.map(({ descricao, valor }) => (
-            <div className="ctnFlex">
+            <div className="ctnFlex" key={descricao}>
               <p className="">
                 {descricao}
               </p>
@@ -96,7 +96,7 @@ function Resume(props) {
         <br/>
         <div>
           {mirrorMonthInfo?.totais.map(({ descricao, valor }) => (
-            <div className="ctnFlex">
+            <div className="ctnFlex" key={descricao}>
               <p className="">
                 {descricao.replace('Banco de horas acumulado','Acumulado')}
               </p>

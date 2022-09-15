@@ -50,7 +50,7 @@ const AhgoraService = {
 
   },
   espelhoPonto: function (year, month) {
-    console.log(new Date(), "espelhoPonto:")
+    console.log(new Date().toLocaleTimeString(), "espelhoPonto")
     let today = new Date();
     let mirroDate = new Date(year,parseInt(month)-1,1);
 

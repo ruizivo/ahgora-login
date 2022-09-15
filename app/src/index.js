@@ -19,7 +19,4 @@ reportWebVitals();
 
 window.Neutralino.init();
 
-window.Neutralino.os.showNotification(
-  " "," "
-);
 

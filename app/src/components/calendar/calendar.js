@@ -41,7 +41,7 @@ function CalendarHive(props) {
 
       return (
       <div className="boxBatidas">
-        <i class="bi bi-star" />
+        <i className="bi bi-star" />
       </div>
       )
     }

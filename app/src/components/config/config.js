@@ -45,7 +45,7 @@ const AlarmList = (props) => {
     <div className="todo-list">
       <AddTaskForm addTask={addTask} />
       {props.alarms?.map((task, index) => (
-        <div className="todo">
+        <div className="todo" key={index}>
           <span>
             {task}
           </span>
