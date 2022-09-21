@@ -22,7 +22,7 @@ const AddTaskForm = ({ addTask }) => {
         placeholder="Enter a title for this task…"
         onChange={e => setValue(e.target.value)}
       />
-      <button type="submit"><i class="bi bi-plus-square" /></button>
+      <button type="submit"><i class="bi bi-plus-square"/></button>
     </form>
   );
 }
@@ -49,7 +49,7 @@ const AlarmList = (props) => {
           <span>
             {task}
           </span>
-          <button type="button" onClick={removeTask(index)}><i className="bi bi-trash" /></button>
+          <button type="button" onClick={() => removeTask(index)}><i class="bi bi-trash"/></button>
         </div>
       ))}
     </div>
