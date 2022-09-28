@@ -78,7 +78,7 @@ function Resume(props) {
 
         <div className="espelho-batidas">
           {mirrorDayInfo?.batidas.map(({ hora, tipo , motivo}) => (
-            <p key={hora} className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
+            <p className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
           ))}
         </div>
         <div>
