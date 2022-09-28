@@ -6,7 +6,11 @@
     "start": "neu run",
     "start:lib": "neu run --frontend-lib-dev",
     "debug:run": "cd app && npm run build && cd .. && neu run -- --window-enable-inspector",
-    "debug": "neu run -- --window-enable-inspector"
+    "debug": "neu run -- --window-enable-inspector",
+    "build:cli:32": "cd ahgora && GOOS=windows GOARCH=386 go build -o bin/ahgora.exe main.go",
+    "build:cli": "cd ahgora && npm run build:cli:32",
+    "build:front": "cd app && npm rum build",
+    "build": "npm run build:cli && npm rum build:front && neu build && cp 'ahgora/bin/ahgora.exe' 'dist/ahgora-login' "
   }
 
 }

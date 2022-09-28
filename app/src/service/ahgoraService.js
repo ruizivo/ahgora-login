@@ -57,8 +57,10 @@ const AhgoraService = {
     return new Promise((resolve, reject) => {
       let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
 
-      const header = `cookie: qwert-external=${jwt}`;
-      let comand = `curl -H "${header}" -X GET https://www.ahgora.com.br/api-espelho/apuracao/${year}-${month}`;
+      // const header = `cookie: qwert-external=${jwt}`;
+      // let comand = `curl -H "${header}" -X GET https://www.ahgora.com.br/api-espelho/apuracao/${year}-${month}`;
+
+      let comand = `ahgora.exe espelho -j ${jwt} -a ${year} -m ${month}`;
 
       window.Neutralino.os.execCommand(comand).then((result) => {
         let mirror = JSON.parse(result.stdOut);
@@ -84,6 +86,8 @@ const AhgoraService = {
             window.Neutralino.storage.setData('history', JSON.stringify(obj));
           }
         }
+      }, error=> {
+        console.log(error)
       });
     });
   },
