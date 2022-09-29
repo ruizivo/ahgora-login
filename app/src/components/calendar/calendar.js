@@ -49,7 +49,7 @@ function CalendarHive(props) {
     return view === "month" ? (
       <div className="boxBatidas">
         {mirror?.dias[result]?.batidas.map(({ hora, tipo , motivo}) => (
-            <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={ motivo!==undefined? `Ponto corrigido - Motivo: ${motivo}`: tipo } key={hora} />
+            <p className={`batida ${tipo === "PREVISTA"? "previsto" : ""} ${tipo === "MANUAL"? "esqueceu" : ""}` } title={ motivo!==undefined? `Ponto corrigido - Motivo: ${motivo}`: tipo } />
           ))}
       </div>
       
