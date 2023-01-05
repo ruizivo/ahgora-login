@@ -6,7 +6,9 @@
     "start": "neu run",
     "start:lib": "neu run --frontend-lib-dev",
     "debug:run": "cd app && npm run build && cd .. && neu run -- --window-enable-inspector",
-    "debug": "neu run -- --window-enable-inspector"
+    "debug": "neu run -- --window-enable-inspector",
+    "build:front": "cd app && npm rum build",
+    "build": "npm rum build:front && neu build "
   }
 
 }
