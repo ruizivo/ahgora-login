@@ -18,6 +18,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+          
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '5.0.x'
 
       - name: Use Node 14.x
         uses: actions/setup-node@v1
