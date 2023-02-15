@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: Build ahgora-login
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
@@ -23,10 +23,10 @@ jobs:
         with:
           dotnet-version: '5.0.x'
 
-      - name: Use Node 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node 16.x
+        uses: actions/setup-node@vv
         with:
-          node-version: '14.x'
+          node-version: '16.x'
       
       
       - name: Versioning
@@ -66,7 +66,7 @@ jobs:
       #     path: dist
 
       - name: Create Release zip
-        uses: papeloto/action-zip@v1
+        uses: vimtor/action-zip@v1
         with:
           files: dist/
           dest: ahgora-login.zip
