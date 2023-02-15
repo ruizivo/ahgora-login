@@ -34,8 +34,24 @@ function CalendarHive(props) {
     }
   }, [worker]);
 
+  function getDateString(date){
+    let year = date.getFullYear()
+    let month = (date.getMonth()+1).toString()
+    let day = date.getDate().toString()
+
+    if(month.length === 1){
+      month = "0"+month
+    }
+
+    if(day.length === 1){
+      day = "0"+day
+    }
+    
+    return year+'-'+month+'-'+day
+  }
+
   const tileContent = ({ date, view }) => {
-    const result = date.toLocaleDateString("en-CA", { year: "numeric",month: "2-digit", day: "2-digit" });
+    const result = getDateString(new Date(date))
 
     if(mirror?.dias[result]?.afastamentos === 1){
 

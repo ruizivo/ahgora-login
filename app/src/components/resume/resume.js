@@ -28,10 +28,25 @@ function Resume(props) {
     setRegisterInProgress(false);
   }
 
+  function getDateString(date){
+    let year = date.getFullYear()
+    let month = (date.getMonth()+1).toString()
+    let day = date.getDate().toString()
+
+    if(month.length === 1){
+      month = "0"+month
+    }
+
+    if(day.length === 1){
+      day = "0"+day
+    }
+    
+    return year+'-'+month+'-'+day
+  }
+
   function atualizaResumo() {
     if(props.mirror){
-      const date = new Date(props.date);
-      const dateString = date?.toLocaleDateString("en-CA", { year: "numeric", month: "2-digit", day: "2-digit" });
+      const dateString = getDateString(new Date(props.date))
       console.log("batidas: ", props.mirror.dias[dateString]);
       setMirrorDayInfo(props.mirror.dias[dateString]);
   
