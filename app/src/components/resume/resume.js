@@ -71,7 +71,9 @@ function Resume(props) {
     AhgoraService.baterPonto().then(
       (result) => {
         console.log('ponto batido!')  
-        updateMirror()
+        setTimeout(() => {
+          updateMirror()
+        }, 3000);
       },
       (error) => {
         console.log(error);

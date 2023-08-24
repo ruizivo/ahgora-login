@@ -26,8 +26,8 @@
     "resourcesPath": "/app/build/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/app/public/neutralino.js",
-    "binaryVersion": "4.6.0",
-    "clientVersion": "3.5.0",
+    "binaryVersion": "4.13.0",
+    "clientVersion": "3.11.0",
     "frontendLibrary": {
       "patchFile": "/app/public/index.html",
       "devUrl": "http://localhost:45689"
