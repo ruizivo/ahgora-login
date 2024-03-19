@@ -27,13 +27,13 @@ function checkAlarmClock() {
       show()    
     }
   });
+}
 
-  async function show() {
-    try {
-        await os.showMessageBox('Hora de bater o ponto', 'Não esquece de bater o seu ponto!!!');
-        await os.showNotification('Hora de bater o ponto', 'Não esquece de bater o seu ponto!!!',"INFO")
-      } catch (error) {
-        console.error('Error displaying notification:', error)
-      }
-  }
+async function show() {
+  try {
+      await os.showMessageBox('Hora de bater o ponto', 'Não esquece de bater o seu ponto!!!');
+      await os.showNotification('Hora de bater o ponto', 'Não esquece de bater o seu ponto!!!',"INFO")
+    } catch (error) {
+      console.error('Error displaying notification:', error)
+    }
 }

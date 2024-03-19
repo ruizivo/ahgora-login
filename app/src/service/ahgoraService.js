@@ -17,7 +17,7 @@ const AhgoraService = {
       });
 
       let comand = `curl -d "${credential}" -X POST https://www.ahgora.com.br/externo/login -i` ;
-      console.log(comand)
+      //console.log(comand)
       os.execCommand(comand).then((result) => {
 
         var n = result.stdOut.match(/{(?:[^{}]*|(R))*}|PHPSESSID=\w*;/g) 
@@ -52,7 +52,7 @@ const AhgoraService = {
     const header = `cookie: qwert-external=${jwt}; ${phpSession}`;
       
     let comand = `curl -H "${header}" https://www.ahgora.com.br/externo/get_image --output .storage/profile.jpg`;
-    console.log(comand)
+    //console.log(comand)
     os.execCommand(comand).then(() => {
 
       filesystem.readBinaryFile('.storage/profile.jpg').then( x => {
@@ -62,17 +62,8 @@ const AhgoraService = {
       })
 
     })
-
-
-   
-
-
   },
   espelhoPonto: function (year, month) {
-    console.log(new Date().toLocaleTimeString(), "espelhoPonto")
-    let today = new Date();
-    let mirroDate = new Date(year,parseInt(month)-1,1);
-
     return new Promise((resolve, reject) => {
       let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
 
@@ -81,24 +72,10 @@ const AhgoraService = {
 
       os.execCommand(comand).then((result) => {
         let mirror = JSON.parse(result.stdOut);
-        //console.log(mirror);
         if (mirror.error) {
           reject(mirror);
         } else {
-          //localStorage.setItem("mirror", JSON.stringify(mirror));
           resolve(mirror);
-
-          // var obj = {
-          //   [year+'-'+month]: {
-          //     dias: mirror.dias,
-          //     total: mirror.meses[year+'-'+month]
-          //   },
-          // }
-
-          // if( mirroDate.getMonth() < today.getMonth()){
-            
-          //   StorageService.saveHistory(obj)
-          // }
         }
       });
     });
@@ -119,9 +96,7 @@ const AhgoraService = {
       
       os.execCommand(comand).then((result) => {
         let ponto = JSON.parse(result.stdOut);
-        //console.log(ponto);
         if (ponto.result) {
-          //localStorage.setItem("ponto", JSON.stringify(ponto));
           resolve(ponto);
         } else {
           resolve(null);

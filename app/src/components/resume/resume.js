@@ -7,6 +7,7 @@ import "./resume.css";
 import Clock from "../clock/clock";
 
 const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
+let timerVar
 
 function Resume(props) {
 
@@ -14,9 +15,25 @@ function Resume(props) {
   const [mirrorDayInfo, setMirrorDayInfo] = useState(null);
   const [mirrorMonthInfo, setMirrorMonthInfo] = useState(null);
   const [registerInProgress, setRegisterInProgress] = useState(false); 
+  const [lastUpdate, setlastUpdate] = useState(null);
   
   const worker = useWorker(createWorker)
 
+  
+
+  function timer(){
+    var sec = 10;
+    console.log("timer...", sec)
+    clearInterval(timerVar)
+    timerVar = setInterval(function() {
+      clearInterval(timerVar)
+      console.log("atualizando..")
+      AppService.atualizaPonto().then( result => {
+        setlastUpdate(new Date().toLocaleString())
+        updateMirror()
+      })
+    }, sec * 1000)
+}
 
   async function updateMirror() {
     let ano = props.date.getFullYear();
@@ -47,21 +64,21 @@ function Resume(props) {
   function atualizaResumo() {
     if(props.mirror){
       const dateString = getDateString(new Date(props.date))
-      console.log("batidas: ", props.mirror.dias[dateString]);
-      setMirrorDayInfo(props.mirror.dias[dateString]);
-  
-      const dateMonthString = dateString.slice(0, -3);
-      console.log("totais: ", props.mirror.meses[dateMonthString]);
-      setMirrorMonthInfo(props.mirror.meses[dateMonthString]);
+      console.log("batidas: ", props.mirror);
 
+      setMirrorDayInfo(props.mirror.dias[dateString]);
+      setMirrorMonthInfo(props.mirror.total);
       setSelectDay(new Date(props.date.getTime()));
+      
     }
   }
+
 
   
   useEffect(() => {
     if(props.date.getTime() !== selectDay?.getTime()){
       atualizaResumo();
+      timer()
     }
   });
 
@@ -72,6 +89,7 @@ function Resume(props) {
       (result) => {
         //console.log('ponto batido!')  
         //setTimeout(() => {
+          
           updateMirror()
         //}, 3000);
       },
@@ -123,7 +141,7 @@ function Resume(props) {
             </div>
           ))}
         </div>
-
+        {lastUpdate && <div className="lastUpdate">última atualização: {lastUpdate}</div>}
       </div>
   );
 }

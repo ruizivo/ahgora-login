@@ -31,3 +31,13 @@
     font-size: 20px;
     text-align: center;
  }
+
+ .lastUpdate {
+    color: #fff;
+    font-family: monospace;
+    font-size: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 10px;
+}
+

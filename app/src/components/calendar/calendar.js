@@ -54,10 +54,9 @@ function CalendarHive(props) {
     const result = getDateString(new Date(date))
 
     if(mirror?.dias[result]?.afastamentos === 1){
-
       return (
       <div className="boxBatidas">
-        <i className="bi bi-star" />
+        <i className="bi bi-star"  title={mirror?.dias[result]?.totais[mirror?.dias[result]?.totais.length-1]?.descricao} />
       </div>
       )
     }
@@ -84,7 +83,7 @@ function CalendarHive(props) {
   };
 
   const onViewChange = ({ action, activeStartDate, value, view }) => {
-    console.log(action, activeStartDate, value, view)
+    //console.log(action, activeStartDate, value, view)
     if(action === 'drillDown' && view === 'month'){
       const today = new Date()
       if(activeStartDate.getMonth() === today.getMonth() && activeStartDate.getFullYear() === today.getFullYear()){             
@@ -97,7 +96,7 @@ function CalendarHive(props) {
 
   const onActiveStartDateChange = ({ action, activeStartDate, value, view }) => 
   {
-    console.log(action, activeStartDate, value, view)
+    //console.log(action, activeStartDate, value, view)
     if(view === 'month'){
       const today = new Date()
       if(activeStartDate.getMonth() === today.getMonth() && activeStartDate.getFullYear() === today.getFullYear()){        
