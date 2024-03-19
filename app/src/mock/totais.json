@@ -1,0 +1,37 @@
+{
+    "referencia": "2024-03",
+    "totais": [
+        {
+            "grupo": "Outros",
+            "descricao": "Horas Trabalhadas",
+            "valor": "61:05"
+        },
+        {
+            "grupo": "Outros",
+            "descricao": "Horas Previstas",
+            "valor": "168:00"
+        },
+        {
+            "grupo": "Outros",
+            "descricao": "DATA MAGNA",
+            "valor": "08:00"
+        },
+        {
+            "grupo": "Outros",
+            "descricao": "Sexta - Feira Santa",
+            "valor": "08:00"
+        },
+        {
+            "grupo": "Outros",
+            "descricao": "SALDO",
+            "valor": "-02:48"
+        },
+        {
+            "grupo": "Outros",
+            "descricao": "Banco de horas no mês",
+            "valor": "-02:48"
+        }
+    ],
+    "inicio": "2024-03-01",
+    "fim": "2024-03-31"
+}

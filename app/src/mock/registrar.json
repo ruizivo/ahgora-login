@@ -1,0 +1,26 @@
+{
+    "result": true,
+    "NSR": 21925,
+    "time": "090045",
+    "day": "2024-03-14",
+    "batidas.21925": {
+        "day": "2024-03-14",
+        "time": "090045"
+    },
+    "batidas_dia": [
+        "090045"
+    ],
+    "nome": "RUI TEIXEIRA DE MENEZES",
+    "employee": {
+        "_id": "5a314face86288193a58f8b4"
+    },
+    "only_location": false,
+    "photo_on_punch": false,
+    "activity_on_punch": false,
+    "justification_permissions": {
+        "read_write_attach": true,
+        "add_absence": true,
+        "add_punch": true
+    },
+    "face_id_on_punch": false
+}

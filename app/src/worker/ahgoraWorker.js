@@ -1,4 +1,4 @@
-import AhgoraService from "../service/ahgoraService";
+import AppService from "../service/appService";
 
 export function hello(name) {
     console.log("estou na thread")
@@ -7,6 +7,6 @@ export function hello(name) {
 
 
 export async function consultaPonto(year, month) {
-    return await AhgoraService.espelhoPonto(year,month);
+    return await AppService.espelhoPonto(year,month);
   }
   

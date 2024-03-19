@@ -10,6 +10,8 @@ import AhgoraService from "./service/ahgoraService";
 import Config from "./components/config/config";
 import StorageService from "./service/storageService";
 
+import { app, events, os } from "@neutralinojs/lib"
+
 import "./App.css";
 
 const createAlarmWorker = createWorkerFactory(() => import('./worker/alarmClock'));
@@ -39,8 +41,38 @@ function App() {
     }
   });
 
+  function setTray() {
+    let tray = {
+      icon: "/app/public/logo192.png",
+      menuItems: [
+        {id: "about", text: "About"},
+        {text: "-"},
+        {id: "quit", text: "Quit"}
+      ]
+    };
+
+    os.setTray(tray);
+
+    function onTrayMenuItemClicked(event) {
+      switch(event.detail.id) {
+        case "about":
+          // eslint-disable-next-line no-undef
+          os.showMessageBox("version", NL_APPVERSION)
+          break
+        case "quit":
+          app.exit()
+          break
+        default:
+          break
+      }
+    }
+    events.on('trayMenuItemClicked', onTrayMenuItemClicked);
+  }
+
+
   function init() {
     try {
+      setTray()
       UpdateService.checkUpdate().then(result => {
         if(result){
           setPageSelected('update');

@@ -1,0 +1,34 @@
+{
+    "referencia": "2024-03-14",
+    "escala": "ESCALA 8 HORAS 8:00 ÁS 17:00 - (12h as 13h)",
+    "jornada": "JORNADA 8 HORAS 8:00 ÁS 17:00 (12H as 13H)",
+    "batidas": [
+        {
+            "hora": "09:00",
+            "tipo": "ORIGINAL",
+            "tipoIdentificador": "O",
+            "data": "2024-03-14"
+        },
+        {
+            "hora": "",
+            "tipo": "PREVISTA"
+        },
+        {
+            "hora": "",
+            "tipo": "PREVISTA"
+        },
+        {
+            "hora": "18:00",
+            "tipo": "PREVISTA"
+        }
+    ],
+    "totais": [
+        {
+            "grupo": "Outros",
+            "descricao": "Horas Previstas",
+            "valor": "08:00"
+        }
+    ],
+    "afastamentos": 0,
+    "estado": "PRESENTE"
+}

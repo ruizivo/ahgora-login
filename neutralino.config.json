@@ -7,7 +7,13 @@
   "url": "/",
   "enableServer": true,
   "enableNativeAPI": true,
-  "nativeAllowList": ["app.*", "os.*", "storage.*"],
+  "nativeAllowList": [
+    "app.*",
+    "os.*",
+    "storage.*",
+    "window.*",
+    "filesystem.*"
+  ],
   "modes": {
     "window": {
       "title": "Ahgora login ",
@@ -18,7 +24,10 @@
       "maxWidth": 856,
       "maxHeight": 520,
       "resizable": false,
-      "icon": "/app/public/logo192.png"
+      "icon": "/app/public/logo192.png",
+      "enableinspector": true,
+      "borderless": false,
+      "show": false
     }
   },
   "cli": {
@@ -26,11 +35,7 @@
     "resourcesPath": "/app/build/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/app/public/neutralino.js",
-    "binaryVersion": "4.13.0",
-    "clientVersion": "3.11.0",
-    "frontendLibrary": {
-      "patchFile": "/app/public/index.html",
-      "devUrl": "http://localhost:45689"
-    }
+    "binaryVersion": "5.0.0",
+    "clientVersion": "5.0.1"
   }
 }

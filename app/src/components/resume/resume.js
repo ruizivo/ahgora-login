@@ -1,7 +1,7 @@
 import { React, useState, useEffect  } from "react";
 import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
 
-import AhgoraService from "../../service/ahgoraService";
+import AppService from "../../service/appService";
 
 import "./resume.css";
 import Clock from "../clock/clock";
@@ -68,12 +68,12 @@ function Resume(props) {
   const registrarPonto = (event) => {
     setRegisterInProgress(true);
 
-    AhgoraService.baterPonto().then(
+    AppService.baterPonto().then(
       (result) => {
-        console.log('ponto batido!')  
-        setTimeout(() => {
+        //console.log('ponto batido!')  
+        //setTimeout(() => {
           updateMirror()
-        }, 3000);
+        //}, 3000);
       },
       (error) => {
         console.log(error);

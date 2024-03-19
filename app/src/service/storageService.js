@@ -1,11 +1,13 @@
+import { storage } from "@neutralinojs/lib"
+
 const StorageService = {
 
     save: function (obj) {
-        window.Neutralino.storage.setData('db', JSON.stringify(obj));
+        storage.setData('db', JSON.stringify(obj));
     },
     load: function () {
         return new Promise((resolve, reject) => {
-            window.Neutralino.storage.getData("db").then(
+            storage.getData("db").then(
                 result => {
                 //console.log(`Data: ${result}`);
                 resolve(JSON.parse(result));
@@ -30,7 +32,7 @@ const StorageService = {
             this.load().then(
                 result =>{
                     if(result.credential === null){
-                        window.Neutralino.storage.getData("userDetails").then((result) => {
+                        storage.getData("userDetails").then((result) => {
                             this.saveCredentials(JSON.parse(result))
                             resolve(JSON.parse(result))
                         }, error =>{
@@ -59,6 +61,29 @@ const StorageService = {
                         this.saveConfig(alarms)
                     }
                     resolve(result.config)
+                }, error=> {
+                    reject()
+                })
+        })
+    },
+    saveHistory: function(history){
+        this.load().then(result =>{
+            let merged = {...result.history, ...history};
+            result.history = this.sortObject(merged);
+            this.save(result)
+        })
+    },
+    sortObject: function(obj) {
+        return Object.keys(obj).sort().reduce(function (result, key) {
+            result[key] = obj[key];
+            return result;
+        }, {});
+    },
+    loadHistory: function () {
+        return new Promise((resolve, reject) => {
+            this.load().then(
+                result =>{
+                    resolve(result.history)
                 }, error=> {
                     reject()
                 })

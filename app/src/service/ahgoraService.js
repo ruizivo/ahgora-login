@@ -1,9 +1,11 @@
 import StorageService from "./storageService";
 
+import { filesystem, os, storage } from "@neutralinojs/lib"
+
 const AhgoraService = {
   // testes
-  // window.Neutralino.os.showMessageBox('Welcome', 'Hello Neutralinojs');
-  // window.Neutralino.os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
+  // os.showMessageBox('Welcome', 'Hello Neutralinojs');
+  // os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
    
 
   login: function (user) {
@@ -14,19 +16,25 @@ const AhgoraService = {
         senha: user.password, 
       });
 
-      let comand = `curl -d "${credential}" -X POST https://www.ahgora.com.br/externo/login`;
+      let comand = `curl -d "${credential}" -X POST https://www.ahgora.com.br/externo/login -i` ;
+      console.log(comand)
+      os.execCommand(comand).then((result) => {
 
-      window.Neutralino.os.execCommand(comand).then((result) => {
-        let userDetails = JSON.parse(result.stdOut);
+        var n = result.stdOut.match(/{(?:[^{}]*|(R))*}|PHPSESSID=\w*;/g) 
+
+        var phpSession = n[0]
+        var response = n[1]
+
+        let userDetails = JSON.parse(response);
         if (userDetails.r === "success") {      
           StorageService.saveCredentials(user)
 
-
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
           localStorage.setItem("credential", JSON.stringify(user));
+          localStorage.setItem("phpSession", JSON.stringify(phpSession));
 
           let comand = `curl https://www.ahgora.com.br/batidaonline/defaultComputer?c=${user.company}`;
-          window.Neutralino.os.execCommand(comand).then((result) => {
+          os.execCommand(comand).then((result) => {
             localStorage.setItem("identity", result.stdOut);
           })
 
@@ -40,12 +48,23 @@ const AhgoraService = {
   },
   getProfileImg: function () {
     let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
-    let profileImg = JSON.parse(localStorage.getItem("userDetails")).employee_id;
-    const header = `cookie: qwert-external=${jwt}`;
+    let phpSession = JSON.parse(localStorage.getItem("phpSession"))
+    const header = `cookie: qwert-external=${jwt}; ${phpSession}`;
       
-    let comand = `curl -H "${header}" https://www.ahgora.com.br/externo/get_image/${profileImg} --output profile.jpg`;
+    let comand = `curl -H "${header}" https://www.ahgora.com.br/externo/get_image --output .storage/profile.jpg`;
     console.log(comand)
-    window.Neutralino.os.execCommand(comand);
+    os.execCommand(comand).then(() => {
+
+      filesystem.readBinaryFile('.storage/profile.jpg').then( x => {
+        var base64String = btoa(String.fromCharCode(...new Uint8Array(x)));
+        localStorage.setItem("profileImg", JSON.stringify(base64String));
+
+      })
+
+    })
+
+
+   
 
 
   },
@@ -60,35 +79,32 @@ const AhgoraService = {
       const header = `cookie: qwert-external=${jwt}`;
       let comand = `curl -H "${header}" -X GET https://www.ahgora.com.br/api-espelho/apuracao/${year}-${month}`;
 
-      window.Neutralino.os.execCommand(comand).then((result) => {
+      os.execCommand(comand).then((result) => {
         let mirror = JSON.parse(result.stdOut);
-        console.log(mirror);
+        //console.log(mirror);
         if (mirror.error) {
           reject(mirror);
         } else {
-          localStorage.setItem("mirror", JSON.stringify(mirror));
+          //localStorage.setItem("mirror", JSON.stringify(mirror));
           resolve(mirror);
 
-          var obj = {
-            historico: {
-                referencia:{
-                  [year+'-'+month]: {
-                    dias: mirror.dias,
-                    total: mirror.meses[year+'-'+month]
-                  }
-                }
-              },
-          }
+          // var obj = {
+          //   [year+'-'+month]: {
+          //     dias: mirror.dias,
+          //     total: mirror.meses[year+'-'+month]
+          //   },
+          // }
 
-          if( mirroDate.getMonth() < today.getMonth()){
-            window.Neutralino.storage.setData('history', JSON.stringify(obj));
-          }
+          // if( mirroDate.getMonth() < today.getMonth()){
+            
+          //   StorageService.saveHistory(obj)
+          // }
         }
       });
     });
   },
   baterPonto: function () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
       let user = JSON.parse(localStorage.getItem("credential"));
       const identity = JSON.parse(localStorage.getItem("identity"));
@@ -100,28 +116,17 @@ const AhgoraService = {
       });
 
       let comand = `curl -d "${credential}" -X POST http://www.ahgora.com.br/batidaonline/verifyIdentification`;
-
-      window.Neutralino.os.execCommand(comand).then((result) => {
+      
+      os.execCommand(comand).then((result) => {
         let ponto = JSON.parse(result.stdOut);
-        console.log(ponto);
+        //console.log(ponto);
         if (ponto.result) {
-          localStorage.setItem("ponto", JSON.stringify(ponto));
-          resolve(true);
+          //localStorage.setItem("ponto", JSON.stringify(ponto));
+          resolve(ponto);
         } else {
-          resolve(false);
+          resolve(null);
         }
       });
-
-      //para testes
-      // AhgoraService.espelhoPonto("2022","05").then(
-      //   (result) => {     
-      //     resolve(true)
-      //   },
-      //   (error) => {
-      //     reject(false);
-      //   }
-      // );
-
 
     });
   },
