@@ -10,8 +10,9 @@ const AppService = {
           console.log("Ponto batido con sucesso!")
           console.log(result);
           localStorage.setItem("ponto", JSON.stringify(result))
-          this.atualizaPonto().then(result => {
-            resolve(result)
+          resolve(result)
+          this.atualizaPonto().then(resultePonto => {
+            console.log("atualizado")
           })
         },
         (error) => {
@@ -21,24 +22,40 @@ const AppService = {
       )
     })
   },
-  espelhoPonto: function(year, month){
+  batidaNaoComputada: function() {
+
+  },
+  espelhoPonto: function(year, month, force=false){
     return new Promise((resolve, reject) => {
-      this.espelhoPontoHistory(year,month).then(
-        result => {
-          console.log(new Date().toLocaleTimeString(), "espelhoPonto local")
-          resolve(result)
-        },
-        error => {
-          this.espelhoPontoAhgora(year,month).then( 
-            result => {
+      if (force){
+        this.espelhoPontoAhgora(year,month).then( 
+          result => {
+            this.espelhoPontoHistory(year,month).then(result => {
               resolve(result)
-            },
-            error => {
-              reject(false)
-            }
-          )
-        }
-      )
+            })
+          },
+          error => {
+            reject(false)
+          }
+        )
+      } else {
+        this.espelhoPontoHistory(year,month).then(
+          result => {
+            console.log(new Date().toLocaleTimeString(), "espelhoPonto local")
+            resolve(result)
+          },
+          error => {
+            this.espelhoPontoAhgora(year,month).then( 
+              result => {
+                resolve(result)
+              },
+              error => {
+                reject(false)
+              }
+            )
+          }
+        )
+      }
     })
   },
   espelhoPontoAhgora: function (year,month) {
@@ -47,7 +64,6 @@ const AppService = {
         (result) => {
             //console.log(new Date().toLocaleTimeString(), "espelhoPonto web")
             localStorage.setItem("mirror", JSON.stringify(result))
-            resolve(result)
             var obj = {
               [year+'-'+month]: {
                 dias: result.dias,
@@ -55,6 +71,8 @@ const AppService = {
               },
             }
             StorageService.saveHistory(obj)
+            result.isLocal = false
+            resolve(result)
           },
           (error) => {
             console.log(error)
@@ -86,11 +104,41 @@ const AppService = {
     return new Promise((resolve, reject) => {
       StorageService.loadHistory().then(
         history => {
-          if(history[year+'-'+month])
-           resolve(history[year+'-'+month])
+          if(history[year+'-'+month]){
+            history[year+'-'+month].isLocal = true
+
+            let batida = JSON.parse(localStorage.getItem("ponto"))
+            
+            if(batida && batida.day === getDateString(new Date())){
+              console.log(batida)
+              console.log(history[year+'-'+month].dias[batida.day])
+              
+              let batidasHistorico = history[year+'-'+month]?.dias[batida.day]?.batidas.filter(obj => obj.tipo === 'ORIGINAL').length;
+
+              if (batidasHistorico < batida.batidas_dia.length) {
+                let horaBatida = batida.batidas_dia[batida.batidas_dia.length -1]
+                var obj = {
+                  hora: `${horaBatida.substring(0, 2)}:${horaBatida.substring(2, 4)}`,
+                  tipo : "registrado"
+                }
+
+                history[year+'-'+month]?.dias[batida.day]?.batidas.splice(batida.batidas_dia.length-1, 1, obj);
+              }
+            }
+
+            resolve(history[year+'-'+month])
+          }
           else
             reject()
         })
+
+        function getDateString(date){
+          let year = date.getFullYear()
+          let month = (date.getMonth()+1).toString().padStart(2, "0")
+          let day = date.getDate().toString().padStart(2, "0")
+         
+          return year+'-'+month+'-'+day
+        }
     })
 
   },

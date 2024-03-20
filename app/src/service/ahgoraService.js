@@ -103,6 +103,8 @@ const AhgoraService = {
         }
       });
 
+      //resolve(JSON.parse("{\"result\":true,\"NSR\":22474,\"time\":\"090008\",\"day\":\"2024-03-20\",\"batidas.22474\":{\"day\":\"2024-03-20\",\"time\":\"180000\"},\"batidas_dia\":[\"090008\",\"132908\",\"144308\",\"180000\"],\"nome\":\"RUI TEIXEIRA DE MENEZES\",\"employee\":{\"_id\":\"5a314face86288193a58f8b4\"},\"only_location\":false,\"photo_on_punch\":false,\"activity_on_punch\":false,\"justification_permissions\":{\"read_write_attach\":true,\"add_absence\":true,\"add_punch\":true},\"face_id_on_punch\":false}"))
+
     });
   },
 };

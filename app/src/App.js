@@ -72,7 +72,7 @@ function App() {
 
   function init() {
     try {
-      setTray()
+      //setTray()
       UpdateService.checkUpdate().then(result => {
         if(result){
           setPageSelected('update');

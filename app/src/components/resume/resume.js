@@ -1,13 +1,15 @@
 import { React, useState, useEffect  } from "react";
-import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
-
+import { createWorkerFactory, useWorker } from '@shopify/react-web-worker';
 import AppService from "../../service/appService";
+
 
 import "./resume.css";
 import Clock from "../clock/clock";
 
 const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
 let timerVar
+let intervalo = 10 * 1000 // 10 segundos
+const maxIntervalo = 5 * 1000 * 60 // 5 minutos
 
 function Resume(props) {
 
@@ -19,45 +21,36 @@ function Resume(props) {
   
   const worker = useWorker(createWorker)
 
-  
 
   function timer(){
-    var sec = 10;
-    console.log("timer...", sec)
+    
+    console.log("timer...", intervalo)
     clearInterval(timerVar)
+    intervalo = parseInt(Math.min(intervalo * 1.3, maxIntervalo))
     timerVar = setInterval(function() {
-      clearInterval(timerVar)
       console.log("atualizando..")
       AppService.atualizaPonto().then( result => {
-        setlastUpdate(new Date().toLocaleString())
-        updateMirror()
+        updateMirror(true)
       })
-    }, sec * 1000)
+    }, intervalo)
 }
 
-  async function updateMirror() {
+  async function updateMirror(force=false) {
     let ano = props.date.getFullYear();
     let mes = String(props.date.getMonth() + 1).padStart(2, "0")
 
-    const webWorkerEspelho = await worker.consultaPonto(ano, mes)
+    const webWorkerEspelho = await worker.consultaPonto(ano, mes, force)
     props.onRegister(webWorkerEspelho)
     atualizaResumo();
     setRegisterInProgress(false);
+    setlastUpdate(new Date().toLocaleString())
   }
 
   function getDateString(date){
     let year = date.getFullYear()
-    let month = (date.getMonth()+1).toString()
-    let day = date.getDate().toString()
-
-    if(month.length === 1){
-      month = "0"+month
-    }
-
-    if(day.length === 1){
-      day = "0"+day
-    }
-    
+    let month = (date.getMonth()+1).toString().padStart(2, "0")
+    let day = date.getDate().toString().padStart(2, "0")
+   
     return year+'-'+month+'-'+day
   }
 
@@ -72,8 +65,6 @@ function Resume(props) {
       
     }
   }
-
-
   
   useEffect(() => {
     if(props.date.getTime() !== selectDay?.getTime()){
@@ -87,11 +78,8 @@ function Resume(props) {
 
     AppService.baterPonto().then(
       (result) => {
-        //console.log('ponto batido!')  
-        //setTimeout(() => {
-          
-          updateMirror()
-        //}, 3000);
+          updateMirror(true)
+          intervalo = 10000
       },
       (error) => {
         console.log(error);
@@ -113,7 +101,7 @@ function Resume(props) {
 
         <div className="espelho-batidas">
           {mirrorDayInfo?.batidas.map(({ hora, tipo , motivo}) => (
-            <p className={`exibirHora batidainfo ${tipo === "PREVISTA"? "previsto" : ""}`} title={motivo || tipo}>{hora}</p>
+            <p className={`exibirHora batidainfo ${tipo.toLowerCase()}`} title={motivo || tipo}>{hora}</p>
           ))}
         </div>
         <div>

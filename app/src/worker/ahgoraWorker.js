@@ -6,7 +6,7 @@ export function hello(name) {
 }
 
 
-export async function consultaPonto(year, month) {
-    return await AppService.espelhoPonto(year,month);
+export async function consultaPonto(year, month, force=false) {
+    return await AppService.espelhoPonto(year,month, force);
   }
   

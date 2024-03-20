@@ -53,12 +53,17 @@
   bottom: 0px;
 }
 
-.previsto {
+.prevista {
   opacity: 0.5;
 }
 
 .esqueceu {
   background-color: black;
+  opacity: 0.5;
+}
+
+.registrado {
+  background-color: orange;
   opacity: 0.5;
 }
 
