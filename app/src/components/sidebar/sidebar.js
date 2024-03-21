@@ -2,7 +2,7 @@ import { React,useContext  } from "react";
 import AppContext from "../../service/appContext";
 import "./sidebar.css";
 import "../../assets/bootstrap-icons.css";
-import { app, os } from "@neutralinojs/lib"
+import { os } from "@neutralinojs/lib"
 import AppService from "../../service/appService";
 
 function Sidebar() {
@@ -21,6 +21,7 @@ function Sidebar() {
     myContext.setPageSelected('config')
   }  
 
+  // eslint-disable-next-line no-unused-vars
   async function teste(){
     // await os.showMessageBox('Hello', 'Welcome')
 
@@ -39,6 +40,7 @@ function Sidebar() {
     AppService.getProfileImg()
   }
 
+  // eslint-disable-next-line no-unused-vars
   async function show() {
     try {
         await window.hide();

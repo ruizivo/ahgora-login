@@ -1,6 +1,6 @@
 import StorageService from "./storageService";
 
-import { filesystem, os, storage } from "@neutralinojs/lib"
+import { filesystem, os } from "@neutralinojs/lib"
 
 const AhgoraService = {
   // testes

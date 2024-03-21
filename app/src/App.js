@@ -41,6 +41,7 @@ function App() {
     }
   });
 
+  // eslint-disable-next-line no-unused-vars
   function setTray() {
     let tray = {
       icon: "/app/public/logo192.png",

@@ -2,6 +2,7 @@
 import StorageService from "../service/storageService";
 import { os } from "@neutralinojs/lib"
 
+// eslint-disable-next-line no-unused-vars
 let clock;
 let currentTime;
 let alarms;
