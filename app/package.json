@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://www.ahgora.com.br",
   "dependencies": {
+    "@neutralinojs/lib": "^5.0.1",
     "@shopify/react-web-worker": "^5.0.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
