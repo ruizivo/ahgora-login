@@ -9,7 +9,7 @@ import Clock from "../clock/clock";
 const createWorker = createWorkerFactory(() => import('../../worker/ahgoraWorker'));
 let timerVar
 let intervalo = 10 * 1000 // 10 segundos
-const maxIntervalo = 5 * 1000 * 60 // 5 minutos
+const maxIntervalo = 1 * 60 * 1000 * 60 // 1 hora
 
 function Resume(props) {
 
@@ -78,7 +78,7 @@ function Resume(props) {
 
     AppService.baterPonto().then(
       (result) => {
-          updateMirror(true)
+          updateMirror()
           intervalo = 10000
       },
       (error) => {

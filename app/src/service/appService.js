@@ -10,10 +10,10 @@ const AppService = {
           console.log("Ponto batido con sucesso!")
           console.log(result);
           localStorage.setItem("ponto", JSON.stringify(result))
-          resolve(result)
           this.atualizaPonto().then(resultePonto => {
-            console.log("atualizado")
+            console.log("base atualizada")
           })
+          resolve(result)
         },
         (error) => {
           console.log(error)
