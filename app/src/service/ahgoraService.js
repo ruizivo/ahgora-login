@@ -1,11 +1,11 @@
-import StorageService from "./storageService";
+import StorageService from "./storageService"
 
 import { filesystem, os } from "@neutralinojs/lib"
 
 const AhgoraService = {
   // testes
-  // os.showMessageBox('Welcome', 'Hello Neutralinojs');
-  // os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
+  // os.showMessageBox('Welcome', 'Hello Neutralinojs')
+  // os.showNotification('Oops :/', 'Something went wrong', 'ERROR')
    
 
   login: function (user) {
@@ -14,99 +14,147 @@ const AhgoraService = {
         empresa: user.company,
         matricula: user.username, 
         senha: user.password, 
-      });
+      })
 
-      let comand = `curl -d "${credential}" -X POST https://www.ahgora.com.br/externo/login -i` ;
+      let comand = `curl -d "${credential}" -X POST https://app.ahgora.com.br/externo/login -i` 
       //console.log(comand)
       os.execCommand(comand).then((result) => {
 
-        var n = result.stdOut.match(/{(?:[^{}]*|(R))*}|PHPSESSID=\w*;/g) 
+        var n = result.stdOut.match(/{(?:[^{}]*|(R))*}|PHPSESSID=\w*/g) 
 
         var phpSession = n[0]
         var response = n[1]
 
-        let userDetails = JSON.parse(response);
+        let userDetails = JSON.parse(response)
         if (userDetails.r === "success") {      
           StorageService.saveCredentials(user)
 
-          localStorage.setItem("userDetails", JSON.stringify(userDetails));
-          localStorage.setItem("credential", JSON.stringify(user));
-          localStorage.setItem("phpSession", JSON.stringify(phpSession));
+          localStorage.setItem("userDetails", JSON.stringify(userDetails))
+          localStorage.setItem("credential", JSON.stringify(user))
+          localStorage.setItem("phpSession", JSON.stringify(phpSession))
 
-          let comand = `curl https://www.ahgora.com.br/batidaonline/defaultComputer?c=${user.company}`;
+          let comand = `curl https://app.ahgora.com.br/batidaonline/defaultComputer?c=${user.company}`
           os.execCommand(comand).then((result) => {
-            localStorage.setItem("identity", result.stdOut);
+            localStorage.setItem("identity", result.stdOut)
           })
 
 
-          resolve(userDetails);
+          resolve(userDetails)
         } else {
-          reject(userDetails);
+          reject(userDetails)
         }
-      });
-    });
+      })
+    })
   },
   getProfileImg: function () {
-    let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
+    let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt
     let phpSession = JSON.parse(localStorage.getItem("phpSession"))
-    const header = `cookie: qwert-external=${jwt}; ${phpSession}`;
+    const header = `cookie: qwert-external=${jwt} ${phpSession}`
       
-    let comand = `curl -H "${header}" https://www.ahgora.com.br/externo/get_image --output .storage/profile.jpg`;
+    let comand = `curl -H "${header}" https://app.ahgora.com.br/externo/get_image --output .storage/profile.jpg`
     //console.log(comand)
     os.execCommand(comand).then(() => {
 
       filesystem.readBinaryFile('.storage/profile.jpg').then( x => {
-        var base64String = btoa(String.fromCharCode(...new Uint8Array(x)));
-        localStorage.setItem("profileImg", JSON.stringify(base64String));
+        var base64String = btoa(String.fromCharCode(...new Uint8Array(x)))
+        localStorage.setItem("profileImg", JSON.stringify(base64String))
 
       })
 
     })
   },
+  getBatidaRepp: function () {
+    let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt
+    let phpSession = JSON.parse(localStorage.getItem("phpSession"))
+    const header = `cookie: qwert-external=${jwt} ${phpSession}`
+      
+    let comand = `curl -H "${header}" https://app.ahgora.com.br/api-espelho/apuracao/getBatidasRepp`
+    //console.log(comand)
+    os.execCommand(comand).then(result => {
+      localStorage.setItem("BatidasRepp", result.stdOut)
+
+    })
+  },
+  getByJwt: function () {
+    return new Promise((resolve, reject) => {
+      let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt
+      let phpSession = JSON.parse(localStorage.getItem("phpSession"))
+      const header = `cookie: qwert-external=${jwt} ${phpSession}`
+        
+      let comand = `curl -H "${header}" https://app.ahgora.com.br/api/funcionarios/byjwt`
+      //console.log(comand)
+      os.execCommand(comand).then(result => {
+        let byJwt = JSON.parse(result.stdOut)
+        localStorage.setItem("byJwt", result.stdOut)
+        if (byJwt.error) {
+          reject(byJwt)
+        } else {
+          resolve(byJwt)
+        }
+      })
+    })
+  },
   espelhoPonto: function (year, month) {
     return new Promise((resolve, reject) => {
-      let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt;
+      let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt
+      const header = `cookie: qwert-external=${jwt}`
 
-      const header = `cookie: qwert-external=${jwt}`;
-      let comand = `curl -H "${header}" -X GET https://www.ahgora.com.br/api-espelho/apuracao/${year}-${month}`;
+      let comand = `curl -H "${header}" -X GET https://app.ahgora.com.br/api-espelho/apuracao/${year}-${month}`
 
       os.execCommand(comand).then((result) => {
-        let mirror = JSON.parse(result.stdOut);
+        let mirror = JSON.parse(result.stdOut)
         if (mirror.error) {
-          reject(mirror);
+          reject(mirror)
         } else {
-          resolve(mirror);
+          resolve(mirror)
         }
-      });
-    });
+      })
+    })
+  },
+  justificativas: function (dataInicio, dataFim) {
+    return new Promise((resolve, reject) => {
+      let jwt = JSON.parse(localStorage.getItem("userDetails")).jwt
+      const header = `cookie: qwert-external=${jwt}`
+
+      let comand = `curl -H "${header}" -X GET https://app.ahgora.com.br/api-espelho/justificativas?inicio=${dataInicio}&fim=${dataFim}`
+
+      os.execCommand(comand).then((result) => {
+        let justificativas = JSON.parse(result.stdOut)
+        if (justificativas.error) {
+          reject(justificativas)
+        } else {
+          resolve(justificativas)
+        }
+      })
+    })
   },
   baterPonto: function () {
     return new Promise((resolve) => {
 
-      let user = JSON.parse(localStorage.getItem("credential"));
-      const identity = JSON.parse(localStorage.getItem("identity"));
+      let user = JSON.parse(localStorage.getItem("credential"))
+      const identity = JSON.parse(localStorage.getItem("identity"))
       const credential = new URLSearchParams({
         identity: identity.identity,
         account: user.username,
         password: user.password,
         origin: "pw2",
-      });
+      })
 
-      let comand = `curl -d "${credential}" -X POST http://www.ahgora.com.br/batidaonline/verifyIdentification`;
+      let comand = `curl -d "${credential}" -X POST http://www.ahgora.com.br/batidaonline/verifyIdentification`
       
       os.execCommand(comand).then((result) => {
-        let ponto = JSON.parse(result.stdOut);
+        let ponto = JSON.parse(result.stdOut)
         if (ponto.result) {
-          resolve(ponto);
+          resolve(ponto)
         } else {
-          resolve(null);
+          resolve(null)
         }
-      });
+      })
 
       //resolve(JSON.parse("{\"result\":true,\"NSR\":22474,\"time\":\"090008\",\"day\":\"2024-03-20\",\"batidas.22474\":{\"day\":\"2024-03-20\",\"time\":\"180000\"},\"batidas_dia\":[\"090008\",\"132908\",\"144308\",\"180000\"],\"nome\":\"RUI TEIXEIRA DE MENEZES\",\"employee\":{\"_id\":\"5a314face86288193a58f8b4\"},\"only_location\":false,\"photo_on_punch\":false,\"activity_on_punch\":false,\"justification_permissions\":{\"read_write_attach\":true,\"add_absence\":true,\"add_punch\":true},\"face_id_on_punch\":false}"))
 
-    });
+    })
   },
-};
+}
 
-export default AhgoraService;
+export default AhgoraService
