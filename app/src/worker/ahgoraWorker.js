@@ -7,6 +7,7 @@ export function hello(name) {
 
 
 export async function consultaPonto(year, month, force = false) {
+  let day = new Date().getDate().toString().padStart(2, "0");
   const anoMesAnterior = obterMesAnterior(year, month);
 
   let mesAnterior = await AppService.espelhoPonto(
@@ -15,8 +16,17 @@ export async function consultaPonto(year, month, force = false) {
     force
   );
   let mesAtual = await AppService.espelhoPonto(year, month, force);
-  mesAtual.dias = { ...mesAnterior.dias, ...mesAtual.dias };
-  return mesAtual;
+
+  let mes = null;
+
+  if(mesAnterior.dias[year+'-'+month+'-'+day]){
+    mes = mesAnterior;
+  } else {
+    mes = mesAtual;
+  }
+   
+  mes.dias = { ...mesAnterior.dias, ...mesAtual.dias };
+  return mes;
 }
 
 function obterMesAnterior(ano, mes) {
